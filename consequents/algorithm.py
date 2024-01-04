@@ -1,23 +1,34 @@
-from algorithms.LM import LM
-from algorithms.LSTSQ import LSTSQ
+import torch
+
+from consequents.algorithms.LM import LM
+from consequents.algorithms.LSTSQ import LSTSQ
 
 ALGORITHMS = {
-    "LSTSQ": lambda : LSTSQ(),
-    "LM": lambda dim: LM(dim)
+    "LSTSQ": lambda n_vars: LSTSQ(n_vars),
+    "LM": lambda n_vars: LM(n_vars)
 }
 
 
 class Algorithm():
-    def __init__(self, algorithm="LSTSQ") -> None:
+    def __init__(self, n_vars, algorithm="LSTSQ") -> None:
+        if algorithm not in ALGORITHMS:
+            raise ValueError(f"Invalid algorithm name: {algorithm}. Supported algorithms are {list(ALGORITHMS.keys())}")
+        
+        self.name = algorithm
+        self.algorithm = ALGORITHMS[algorithm](n_vars)
+        self.dim = (n_vars, 1)
 
-        self.algorithm = ALGORITHMS[algorithm]
-        self.theta = self.algorithm.init_theta()
-
+    def init_theta(self):
+        return torch.zeros(self.dim)
+        
     def forward(self, x, y):
         return self.algorithm(x, y)
     
     def __call__(self, x, y):
         return self.forward(x, y)
+    
+    def __repr__(self):
+        return f"{self.name} Algorithm"
     
 
 
@@ -59,15 +70,15 @@ class Algorithm(torch.nn.Module):
 
 class RecursiveLSE(Algorithm):
         
-    def __init__(self, n_variables: int, number: int = 1e4, parameter: float = 1e-4):
+    def __init__(self, n_vars: int, number: int = 1e4, parameter: float = 1e-4):
         self.params_init = {
             "theta": {
-                "dim": n_variables,
+                "dim": n_vars,
                 "init": torch.zeros,
                 "mutable": True
             },
             "S": {
-                "dim": n_variables,
+                "dim": n_vars,
                 "init": torch.eye,
                 "mutable": False
             },

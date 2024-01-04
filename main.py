@@ -1,8 +1,8 @@
 import torch
 from torch.nn.functional import normalize
 
-from Antecedents.antecedents import Antecedents
-from Rules.rules import Rules
+from antecedents.main import Antecedents
+from rules.main import Rules
 from Consequents.consequents import Consequents
 from Consequents.algorithms import RecursiveLSE
 

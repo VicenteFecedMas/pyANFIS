@@ -1,6 +1,6 @@
 import torch
-from Rules.intersection_algorithms import *
-from Rules.relation_algorithms import *
+from rules.intersection_algorithms import *
+from rules.relation_algorithms import *
 
 # NECESITO CHEKCEAR ESTA CLASE PARA VER QUE HACE
 class Rules(torch.nn.Module):

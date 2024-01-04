@@ -2,19 +2,19 @@ import pypose
 import torch
 
 class Params(torch.nn.Module):
-    def __init__(self, dim):
+    def __init__(self, n_vars):
         super().__init__()
-        self.theta = torch.nn.Parameter(torch.rand(dim, requires_grad=False))
+        self.theta = torch.nn.Parameter(torch.zeros((n_vars, 1), requires_grad=False))
 
     def forward(self, input):
-        return input @ self.theta
+        return torch.einsum('bij, jk -> bik', input, self.theta)
     
 class LM():
-    def __init__(self, dim) -> None:
+    def __init__(self, n_vars) -> None:
         self.loss = {}
         self.theta = {}
         self.step = 0
-        self.params = Params(dim)
+        self.params = Params(n_vars)
         self.optimizer = pypose.optim.LM(self.params)
 
     def forward(self, x, y):

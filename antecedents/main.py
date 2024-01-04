@@ -1,5 +1,5 @@
 import torch
-from Antecedents.functions import *
+from antecedents.functions import *
 import matplotlib.pyplot as plt
 
 class Universe(torch.nn.Module):
