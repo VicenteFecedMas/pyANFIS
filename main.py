@@ -1,29 +1,27 @@
 import torch
-from torch.nn.functional import normalize
 
 from antecedents.main import Antecedents
 from rules.main import Rules
-from Consequents.consequents import Consequents
-from Consequents.algorithms import RecursiveLSE
+from consequents.main import Consequents
 
 class ANFIS(torch.nn.Module):
-    def __init__(self, x, y, antecedents: Antecedents = None, rules: Rules = None, consequents: Consequents = None):
-        
+    def __init__(self, x, y, antecedents:Antecedents = None, rules:Rules = None, consequents:Consequents = None):
+        super().__init__()       
         self.antecedents = Antecedents(x) if not antecedents else antecedents
+        self.antecedents.automf(5) # TODO
         self.rules = Rules() if not rules else rules
-        self.normalisation = normalize
-        self.consequents = Consequents(algorithms=[RecursiveLSE(9)] * y.size(2), outputs=[f'Output_{i}' for i in range(0,y.size(2))]) if not consequents else consequents
+        self.normalisation = torch.nn.functional.normalize
+        self.consequents = Consequents(input_dim=x.shape, outputs_dim=y.shape) if not consequents else consequents
+
+        self.epoch = -1
 
     def forward(self, x, y=None):
         if self.training:
-            f = self.antecedents(f)
-            f = self.rules(f)
-            f = self.normalisation(f)
-            f = self.consequents(x, f, y)
-            return torch.einsum('bij -> bi', f)
-        else:
-            f = self.antecedents(f)
-            f = self.rules(f)
-            f = self.normalisation(f)
-            f = self.consequents(x, f)
-            return torch.einsum('bij -> bi', f)
+            self.epoch += 1
+
+        f = self.antecedents(x)
+        f, col_indexes = self.rules(f, self.epoch) # col_indexes = rule place on each col
+        f = self.normalisation(f, dim=2, p=1)
+        self.consequents.active_rules = self.rules.active_rules
+
+        return self.consequents(x, y, (f, col_indexes))

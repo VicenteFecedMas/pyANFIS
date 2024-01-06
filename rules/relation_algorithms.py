@@ -20,8 +20,6 @@ def create_rules_matrix(universes_combinations: list, fuzzyfied_input: torch.Ten
 
     return rules_tensor
 
-
-
 def apriori(x: torch.Tensor, min_support = 0.5, min_support_fuzzyfication = None):
     fuzzyfied_input = binarize_input(x, min_support_fuzzyfication)
 

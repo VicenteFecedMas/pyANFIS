@@ -4,29 +4,26 @@ import torch
 class Params(torch.nn.Module):
     def __init__(self, n_vars):
         super().__init__()
-        self.theta = torch.nn.Parameter(torch.zeros((n_vars, 1), requires_grad=False))
-
+        self.theta = torch.nn.Parameter(torch.zeros(n_vars, 1))
+        
     def forward(self, input):
         return torch.einsum('bij, jk -> bik', input, self.theta)
     
-class LM():
+class LM(torch.nn.Module):
     def __init__(self, n_vars) -> None:
-        self.loss = {}
+        super().__init__()
+        
         self.theta = {}
-        self.step = 0
         self.params = Params(n_vars)
         self.optimizer = pypose.optim.LM(self.params)
+        self.step = -1
 
-    def forward(self, x, y):
-        loss = self.optimizer.step(x, y)
-        theta = self.optimizer.param_groups[0]['params'][0]
+    def forward(self, x, y=None):
+        if self.training:
+            self.step += 1
+            self.optimizer.step(x, y)
+            theta = self.optimizer.param_groups[0]['params'][0]
 
-        self.loss[self.step] = loss
-        self.theta[self.step] = theta
+            self.theta[self.step] = theta
 
-        self.step += 1
-
-        return self.params(x)
-    
-    def __call__(self, x, y):
-        return self.forward(x, y)
+        return torch.einsum('bij, jk -> bik', x, self.theta[self.step])

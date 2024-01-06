@@ -2,7 +2,6 @@ import torch
 from dataclasses import dataclass, field
 from typing import Any
 
-@dataclass
 class Sigmoid(torch.nn.Module):
   r"""Applies a sigmoid transformation to the incoming data: :math:`\frac{1}{e^(\frac{x-c}{-w} + 1}`
 

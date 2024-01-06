@@ -9,8 +9,10 @@ ALGORITHMS = {
 }
 
 
-class Algorithm():
-    def __init__(self, n_vars, algorithm="LSTSQ") -> None:
+class Algorithm(torch.nn.Module):
+    def __init__(self, n_vars, algorithm="LM") -> None:
+        super().__init__()
+        
         if algorithm not in ALGORITHMS:
             raise ValueError(f"Invalid algorithm name: {algorithm}. Supported algorithms are {list(ALGORITHMS.keys())}")
         
@@ -21,11 +23,9 @@ class Algorithm():
     def init_theta(self):
         return torch.zeros(self.dim)
         
-    def forward(self, x, y):
+    def forward(self, x, y=None):
+        self.algorithm.training = self.training
         return self.algorithm(x, y)
-    
-    def __call__(self, x, y):
-        return self.forward(x, y)
     
     def __repr__(self):
         return f"{self.name} Algorithm"

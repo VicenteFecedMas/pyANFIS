@@ -4,13 +4,12 @@ import matplotlib.pyplot as plt
 
 class Universe(torch.nn.Module):
     
-    def __init__(self, data: tuple, name:str, merge:bool, divisions:int, heaviside:bool, universe:dict={}, atol:float=0.0, rtol:float=0.1):
+    def __init__(self, x: torch.Tensor, name:str, merge:bool, heaviside:bool, universe:dict={}, atol:float=0.0, rtol:float=0.1):
         super(Universe, self).__init__()
-        self.min, self.max = data
+        self.min, self.max = (torch.min(x) ,torch.max(x))
         self.name = name
 
         self.merge = merge
-        self.divisions = divisions
 
         self.heaviside = heaviside
 
@@ -46,34 +45,32 @@ class Universe(torch.nn.Module):
         
     def forward(self , x: torch.Tensor) -> torch.Tensor:
         fuzzy = torch.empty(x.size(0), x.size(1), len(self.universe))
+
         for i, (key, function) in enumerate(self.universe.items()):
             if i == 0 and self.heaviside == True:
-                fuzzy[:, :, i] = Heaviside(right_equation=function)(x)
+                fuzzy[:, :, i:i+1] = Heaviside(right_equation=function)(x)
             elif i == len(self.universe) and self.heaviside == True:
-                fuzzy[:, :, i] = Heaviside(left_equation=function)(x)
+                fuzzy[:, :, i:i+1] = Heaviside(left_equation=function)(x)
             else:
-                fuzzy[:, :, i] = function(x)
+                fuzzy[:, :, i:i+1] = function(x)
 
         return fuzzy
 
-@dataclass
 class Antecedents(torch.nn.Module):
     '''
     Responsible for storing all the universes in 1 place
     '''
-    def __init__(self, data: torch.Tensor, divisions:int=10, merge:bool=False, heaviside:bool=True):
+    def __init__(self, x: torch.Tensor, merge:bool=False, heaviside:bool=True):
         super(Antecedents, self).__init__()
-        self.data = data
-        self.n_vars = list(range(data.size(-1)))
+        self.x = x
+        self.n_vars = list(range(x.size(-1)))
 
         self.merge = merge
-        self.divisions = divisions
 
         self.heaviside = heaviside
 
-        self.universes = {str(i): Universe(data=(torch.min(self.data[:,:,i]) ,torch.max(self.data[:,:,i])),
+        self.universes = {str(i): Universe(x=x[:,:,i],
                                            merge=self.merge,
-                                           divisions=self.divisions,
                                            heaviside=self.heaviside,
                                            name=str(i)) for i, _ in enumerate(self.n_vars)}
 
@@ -93,13 +90,11 @@ class Antecedents(torch.nn.Module):
             self.universes[str(i)].automf(n_func=n_func)
 
     def forward(self , x: torch.Tensor) -> torch.Tensor:
-        '''Puede que vaya, pero tengo que hacer un testeo muuuuy gordo'''
         width = len([function for key, universe in self.universes.items() for key, function in universe.universe.items()])
-        fuzzy = torch.empty(x.size(0), x.size(1), width)
+        fuzzy = torch.zeros(x.size(0), x.size(1), width)
         
         for i, (key, universe) in enumerate(self.universes.items()):
-            fuzzy[:, :, i*len(universe.universe):(i+1)*len(universe.universe)] = universe(x[:,:,i])
-
+            fuzzy[:, :, i*len(universe.universe):(i+1)*len(universe.universe)] = universe(x[:,:,i:i+1])
         
         fuzzy[torch.isnan(fuzzy)] = 1
         return fuzzy
