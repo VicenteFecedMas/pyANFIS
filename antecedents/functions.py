@@ -113,7 +113,7 @@ class Gauss(torch.nn.Module):
     x = -(x)/ (2 * (self.std ** 2))
     x = torch.exp(x)
     return x
-  
+
 
 class Heaviside(torch.nn.Module):
   r"""This expression will be used on the corners. To indicate that a function on the extreme left

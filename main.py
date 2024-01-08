@@ -8,7 +8,7 @@ class ANFIS(torch.nn.Module):
     def __init__(self, x, y, antecedents:Antecedents = None, rules:Rules = None, consequents:Consequents = None):
         super().__init__()       
         self.antecedents = Antecedents(x) if not antecedents else antecedents
-        self.antecedents.automf(5) # TODO
+        self.antecedents.automf(2) # TODO
         self.rules = Rules() if not rules else rules
         self.normalisation = torch.nn.functional.normalize
         self.consequents = Consequents(input_dim=x.shape, outputs_dim=y.shape) if not consequents else consequents
