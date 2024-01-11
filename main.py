@@ -5,10 +5,11 @@ from rules.main import Rules
 from consequents.main import Consequents
 
 class ANFIS(torch.nn.Module):
-    def __init__(self, x, y, antecedents:Antecedents = None, rules:Rules = None, consequents:Consequents = None):
+    def __init__(self, x, y, antecedents:Antecedents = None, rules:Rules = None, consequents:Consequents = None,
+                 membership_functions:int = 2):
         super().__init__()       
         self.antecedents = Antecedents(x) if not antecedents else antecedents
-        self.antecedents.automf(2) # TODO
+        self.antecedents.automf(membership_functions) # TODO
         self.rules = Rules() if not rules else rules
         self.normalisation = torch.nn.functional.normalize
         self.consequents = Consequents(input_dim=x.shape, outputs_dim=y.shape) if not consequents else consequents
@@ -24,4 +25,6 @@ class ANFIS(torch.nn.Module):
         f = self.normalisation(f, dim=2, p=1)
         self.consequents.active_rules = self.rules.active_rules
 
-        return self.consequents(x, y, (f, col_indexes))
+        f = self.consequents(x, y, (f, col_indexes))
+
+        return f

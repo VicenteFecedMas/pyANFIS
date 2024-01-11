@@ -2,15 +2,17 @@ import torch
 
 from consequents.algorithms.LM import LM
 from consequents.algorithms.LSTSQ import LSTSQ
+from consequents.algorithms.RLSE import RLSE
 
 ALGORITHMS = {
     "LSTSQ": lambda n_vars: LSTSQ(n_vars),
-    "LM": lambda n_vars: LM(n_vars)
+    "LM": lambda n_vars: LM(n_vars),
+    "RLSE":  lambda n_vars: RLSE(n_vars),
 }
 
 
 class Algorithm(torch.nn.Module):
-    def __init__(self, n_vars, algorithm="LM") -> None:
+    def __init__(self, n_vars, algorithm="RLSE") -> None:
         super().__init__()
         
         if algorithm not in ALGORITHMS:
@@ -23,9 +25,11 @@ class Algorithm(torch.nn.Module):
     def init_theta(self):
         return torch.zeros(self.dim)
         
-    def forward(self, x, y=None):
+    def forward(self, x, f, y=None):
         self.algorithm.training = self.training
-        return self.algorithm(x, y)
+        x =  self.algorithm(x, f, y)
+
+        return x
     
     def __repr__(self):
         return f"{self.name} Algorithm"

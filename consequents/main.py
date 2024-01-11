@@ -53,8 +53,9 @@ class Consequents(torch.nn.Module):
         return str(int(''.join(str(int(i)) for i in binary_list), 2))
     
     def forward(self, x, y, f) -> torch.Tensor:
+        ones = torch.ones(x.shape[:-1] + (1,), dtype=x.dtype)
+        x = torch.cat([x, ones], dim=-1)
 
-        x = x.clone().detach()
         self.b, self.i, _ = x.size()
 
         if self.training:
@@ -72,11 +73,12 @@ class Consequents(torch.nn.Module):
                 
                 rule_index = rule_per_col.index(rule)
                 if self.training:
-                    output[:, :, var:var+1] += algorithm(x, y[:, :, var:var+1]) * f[:, :, rule_index:rule_index+1]
+                    output[:, :, var:var+1] += algorithm(x, f[:, :, rule_index:rule_index+1].clone().detach(), y[:, :, var:var+1]) * f[:, :, rule_index:rule_index+1]
                 else:
-                    output[:, :, var:var+1] += algorithm(x) * f[:, :, rule_index:rule_index+1]
+                    output[:, :, var:var+1] += algorithm(x, f[:, :, rule_index:rule_index+1])
 
             var += 1     
-        
+        # print(f'''LAS THETAS SON: {list(self.algorithms_buffer_per_output["output_0"]['0'].algorithm.theta[self.algorithms_buffer_per_output["output_0"]['0'].algorithm.step])}''') 
         return output 
+        
     

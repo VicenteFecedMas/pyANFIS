@@ -1,4 +1,6 @@
 import torch
+from itertools import product
+
 from rules.intersection_algorithms import *
 from rules.relation_algorithms import *
 
@@ -21,6 +23,11 @@ class Rules(torch.nn.Module):
         self.intersection = self.intersections_dict[intersection]
         self.periodicity = periodicity
     
+
+    def generate_binary_numbers(self, size):
+        binary_numbers = torch.tensor(list(product([0, 1], repeat=size)), dtype=torch.float32)
+        return binary_numbers
+    
     def relate_fuzzy_numbers(self, fuzzy_numbers_matrix):
         '''
         INPUT: FN es Funny numbers matrix y R es rules matrix
@@ -38,10 +45,16 @@ class Rules(torch.nn.Module):
         return str(int(''.join(str(int(i)) for i in binary_list), 2))
     
     def forward(self, x, epoch):
+        
+        if self.active_rules == None:
+            print("Computing rules")
+            size = x.size(-1)
+            self.active_rules = self.generate_binary_numbers(size)
+            print("Rules computed")
 
-        if self.training and ((epoch == 0) or (epoch % self.periodicity == 0)):
-
-            self.active_rules = self.relation_algorithm(x)
+        #if self.training and ((epoch == 0) or (epoch % self.periodicity == 0)):
+        #    self.active_rules = self.relation_algorithm(x)
+        #    print(self.active_rules)
 
         x = self.intersection(self.relate_fuzzy_numbers(x)) # This is a 4D tensor
         
