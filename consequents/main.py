@@ -9,22 +9,18 @@ class Consequents(torch.nn.Module):
         self.input_dim = input_dim
         self.output_dim = outputs_dim
         
-        self.algorithms_buffer_per_output = self.init_buffer(algorithms)
+        self.algorithms_per_output = None
 
         self._active_rules = None
         self.active_params_per_output = None
 
-        self.b = None
-        self.i = None
-        self.j = None
+        self.y_j = None
 
-    def init_buffer(self, algorithms) -> dict:
+    def init_buffer(self, vars) -> dict:
         return { 
-                    f"output_{i}" :  {} if not isinstance(algorithms, dict) else algorithms[i]
-                                                                        
-                    for i in range(self.output_dim[-1])
+                    f"output_{i}" :  Algorithm(vars) for i in range(self.output_dim[-1])
                 }
-    
+    '''
     @property
     def active_rules(self):
         return self._active_rules
@@ -48,37 +44,40 @@ class Consequents(torch.nn.Module):
         for ith_output_name, ith_param_dict in self.active_params_per_output.items():
             for rule_name, param in ith_param_dict.items():
                 self.algorithms_buffer_per_output[ith_output_name][rule_name] = param
- 
+    '''
     def binarice(self, binary_list: torch.Tensor) -> str:
         return str(int(''.join(str(int(i)) for i in binary_list), 2))
     
     def forward(self, x, y, f) -> torch.Tensor:
-        ones = torch.ones(x.shape[:-1] + (1,), dtype=x.dtype)
-        x = torch.cat([x, ones], dim=-1)
 
-        self.b, self.i, _ = x.size()
+        f = f
+        ones = torch.ones(x.shape[:-1] + (1,), dtype=x.dtype)
+        x = torch.cat([x, ones], dim=-1).clone().detach()
+
+        x_b, x_i, x_j = x.size()
+        f_b, f_i, f_j = f.size()
+
+        if not self.algorithms_per_output:
+            self.algorithms_per_output = self.init_buffer(x_j * f_j) 
 
         if self.training:
-            self.j = y.size(2)
+            self.y_j = y.size(2)
             y = y.clone().detach()
 
-        f, rule_per_col = f
+        
+        output = torch.zeros((x_b, x_i , self.y_j))
+        
+        input = torch.einsum('bri, brj -> brij', f, x).view(x_b, x_i, -1)
 
-        output = torch.zeros((self.b, self.i , self.j))
-
-        for ith_output_name, ith_output_algorithm_dict in self.active_params_per_output.items():
+        for name, algorithm in self.algorithms_per_output.items():
             var = 0
-            for rule, algorithm in ith_output_algorithm_dict.items():
+            if self.training:
                 algorithm.training = self.training
-                
-                rule_index = rule_per_col.index(rule)
-                if self.training:
-                    output[:, :, var:var+1] += algorithm(x, f[:, :, rule_index:rule_index+1].clone().detach(), y[:, :, var:var+1]) * f[:, :, rule_index:rule_index+1]
-                else:
-                    output[:, :, var:var+1] += algorithm(x, f[:, :, rule_index:rule_index+1])
+                algorithm(input.clone().detach(), y[:, :, var:var+1])                               
+
+            output[:, :, var:var+1] += torch.einsum('bij, jk -> bik', input, algorithm.algorithm.theta)
 
             var += 1     
-        # print(f'''LAS THETAS SON: {list(self.algorithms_buffer_per_output["output_0"]['0'].algorithm.theta[self.algorithms_buffer_per_output["output_0"]['0'].algorithm.step])}''') 
         return output 
         
     

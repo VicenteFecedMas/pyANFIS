@@ -10,7 +10,6 @@ class Rules(torch.nn.Module):
     def __init__(self, intersection:str = 'larsen', relation:str = 'apriori', periodicity:int = 5):
         super(). __init__()
         self.active_rules = None
-
         self.relations_algorithm_dict = {
             'apriori': apriori
         }
@@ -24,9 +23,20 @@ class Rules(torch.nn.Module):
         self.periodicity = periodicity
     
 
-    def generate_binary_numbers(self, size):
-        binary_numbers = torch.tensor(list(product([0, 1], repeat=size)), dtype=torch.float32)
-        return binary_numbers
+    def generate_rules(self, n_membership_functions_per_universe):
+        
+        ranges_list = [range(sum(n_membership_functions_per_universe[:i]), sum(n_membership_functions_per_universe[:i+1])) for i in range(len(n_membership_functions_per_universe))]
+        result_list = [torch.tensor(r) for r in ranges_list]
+
+        combinations = torch.cartesian_prod(*result_list)
+
+        rules = torch.zeros((len(combinations), sum(n_membership_functions_per_universe)))
+
+        for i, numbers in enumerate(combinations):
+            for j in numbers:
+                rules[i, j] = 1
+            
+        return rules
     
     def relate_fuzzy_numbers(self, fuzzy_numbers_matrix):
         '''
@@ -45,17 +55,6 @@ class Rules(torch.nn.Module):
         return str(int(''.join(str(int(i)) for i in binary_list), 2))
     
     def forward(self, x, epoch):
-        
-        if self.active_rules == None:
-            print("Computing rules")
-            size = x.size(-1)
-            self.active_rules = self.generate_binary_numbers(size)
-            print("Rules computed")
-
-        #if self.training and ((epoch == 0) or (epoch % self.periodicity == 0)):
-        #    self.active_rules = self.relation_algorithm(x)
-        #    print(self.active_rules)
-
         x = self.intersection(self.relate_fuzzy_numbers(x)) # This is a 4D tensor
         
         return x[:, :, :, 0], [self.binarice(rule) for rule in self.active_rules]

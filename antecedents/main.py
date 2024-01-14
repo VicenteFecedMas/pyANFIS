@@ -60,7 +60,7 @@ class Antecedents(torch.nn.Module):
     '''
     Responsible for storing all the universes in 1 place
     '''
-    def __init__(self, x: torch.Tensor, merge:bool=False, heaviside:bool=True):
+    def __init__(self, x: torch.Tensor, merge:bool=False, heaviside:bool=False):
         super(Antecedents, self).__init__()
         self.x = x
         self.n_vars = list(range(x.size(-1)))

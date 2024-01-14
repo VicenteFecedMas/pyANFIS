@@ -12,7 +12,7 @@ ALGORITHMS = {
 
 
 class Algorithm(torch.nn.Module):
-    def __init__(self, n_vars, algorithm="RLSE") -> None:
+    def __init__(self, n_vars, algorithm="LSTSQ") -> None:
         super().__init__()
         
         if algorithm not in ALGORITHMS:
@@ -21,15 +21,10 @@ class Algorithm(torch.nn.Module):
         self.name = algorithm
         self.algorithm = ALGORITHMS[algorithm](n_vars)
         self.dim = (n_vars, 1)
-
-    def init_theta(self):
-        return torch.zeros(self.dim)
         
-    def forward(self, x, f, y=None):
+    def forward(self, x, y=None):
         self.algorithm.training = self.training
-        x =  self.algorithm(x, f, y)
-
-        return x
+        return self.algorithm(x, y)
     
     def __repr__(self):
         return f"{self.name} Algorithm"
