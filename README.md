@@ -8,7 +8,7 @@ This framework is based on [Jang's](https://www.researchgate.net/publication/311
 - [x] Jang's Original ANFIS.
 - [ ] Create documentation for each class and function.
 - [ ] Create an instalation tutorial.
-- [ ] Consequent parameters can be estimated using backpropagation.
+- [x] Consequent parameters can be estimated using backpropagation.
 - [ ] Type 1 (Tsukamoto) consequents can be used.
 - [ ] Type 2 (Lee) consequents can be used.
 - [ ] Antecedents can merge when 2 functions cover a similar area.

@@ -12,19 +12,30 @@ ALGORITHMS = {
 
 
 class Algorithm(torch.nn.Module):
-    def __init__(self, n_vars, algorithm="LSTSQ") -> None:
+    def __init__(self, n_vars, parameters_update,  algorithm="LSTSQ") -> None:
         super().__init__()
         
+        self.parameters_update = parameters_update
+
         if algorithm not in ALGORITHMS:
             raise ValueError(f"Invalid algorithm name: {algorithm}. Supported algorithms are {list(ALGORITHMS.keys())}")
         
         self.name = algorithm
         self.algorithm = ALGORITHMS[algorithm](n_vars)
         self.dim = (n_vars, 1)
+
+        if parameters_update == "backward":
+            self.theta = torch.nn.Parameter(torch.zeros((n_vars, 1), requires_grad=True))
+        else:
+            self.theta = None
         
     def forward(self, x, y=None):
-        self.algorithm.training = self.training
-        return self.algorithm(x, y)
+        if self.parameters_update == "backward":
+            return self.theta 
+        else:
+            self.algorithm.training = self.training
+            self.theta = self.algorithm(x.clone().detach(), y)
+            return self.theta
     
     def __repr__(self):
         return f"{self.name} Algorithm"
