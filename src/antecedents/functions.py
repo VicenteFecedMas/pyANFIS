@@ -8,14 +8,14 @@ class Sigmoid(torch.nn.Module):
     Attributes
     ----------
     center : float
-            center of the sigmoid function
-    width :
-            width of the transition area
+        center of the sigmoid function
+    width : float
+        width of the transition area
 
     Returns
     -------
     torch.tensor
-            a tensor of equal size to the input tensor
+        a tensor of equal size to the input tensor
 
     Examples
     --------
@@ -28,21 +28,20 @@ class Sigmoid(torch.nn.Module):
     tensor([[0.1192, 0.1680, 0.2315, 0.3100, 0.4013, 0.5000, 0.5987, 0.6900, 0.7685,
     0.8320, 0.8808]], grad_fn=<MulBackward0>)
     """
-    def __init__(self, center: float, width: float):
+    def __init__(self, center: float, width: float) -> None:
         super(Sigmoid, self).__init__()
         self.center = torch.nn.Parameter(torch.tensor(center), requires_grad=True)
         self.width = torch.nn.Parameter(torch.tensor(width), requires_grad=True)
     
-    def get_center(self):
+    def get_center(self) -> torch.Tensor:
         return self.center
     
-    def forward(self, x):
+    def forward(self, x) -> torch.Tensor:
         x = x - self.center
         x = x / (- self.width)
         x = torch.exp(x)
         x = x + 1
         x = 1 / x
-
         return x
   
 
@@ -53,14 +52,14 @@ class Gauss(torch.nn.Module):
     Attributes
     ----------
     mean : float
-            center of the gauss function
-    std :
-            width of the gauss function
+        center of the gauss function
+    std : float
+        width of the gauss function
 
     Returns
     -------
     torch.tensor
-            a tensor of equal size to the input tensor
+        a tensor of equal size to the input tensor
 
     Examples
     --------
@@ -73,15 +72,15 @@ class Gauss(torch.nn.Module):
     tensor([[0.1353, 0.2780, 0.4868, 0.7261, 0.9231, 1.0000, 0.9231, 0.7261, 0.4868,
     0.2780, 0.1353]], grad_fn=<ExpBackward0>)
     """
-    def __init__(self, mean: float, std: float):
+    def __init__(self, mean: float, std: float) -> None:
         super(Gauss, self).__init__()
         self.mean = torch.nn.Parameter(torch.tensor(mean), requires_grad=True)
         self.std = torch.nn.Parameter(torch.tensor(std), requires_grad=True)
     
-    def get_center(self):
+    def get_center(self) -> torch.Tensor:
         return self.mean
     
-    def forward(self, x):
+    def forward(self, x) -> torch.Tensor:
         x = x - self.mean
         x = (x)** 2
         x = -(x)/ (2 * (self.std ** 2))
@@ -99,13 +98,13 @@ class Heaviside(torch.nn.Module):
     Attributes
     ----------
     mean : float
-            center of the transition area
+        center of the transition area
     std :
-            width of the transition area
+        width of the transition area
     Returns
     -------
     torch.tensor
-            a tensor of equal size to the input tensor
+        a tensor of equal size to the input tensor
 
     Examples
     --------
@@ -117,9 +116,9 @@ class Heaviside(torch.nn.Module):
     torch.Size([1, 11])
     >>> print(output)
     tensor([[0.1353, 0.2780, 0.4868, 0.7261, 0.9231, 1.0000, 1.0000, 1.0000, 1.0000,
-        1.0000, 1.0000]], grad_fn=<AddBackward0>)
+    1.0000, 1.0000]], grad_fn=<AddBackward0>)
     """
-    def __init__(self, left_equation = None, right_equation = None):
+    def __init__(self, left_equation = None, right_equation = None) -> None:
         super(Heaviside, self).__init__()
         self.left_equation = torch.tensor([1]) if left_equation is None else left_equation
         self.right_equation = torch.tensor([1]) if right_equation is None else right_equation
@@ -127,8 +126,7 @@ class Heaviside(torch.nn.Module):
         self.center = self.left_equation.get_center() if type(self.left_equation) != torch.Tensor else self.right_equation.get_center()
         self.step = Sigmoid(center=float(self.center), width=1e-5)
 
-    def forward(self, x):
+    def forward(self, x) -> torch.Tensor:
         left_equation = self.left_equation(x) if type(self.left_equation) != torch.Tensor else self.left_equation
         right_equation = self.right_equation(x) if type(self.right_equation) != torch.Tensor else self.right_equation
-
         return (torch.tensor(1) - self.step(x)) * left_equation +  self.step(x) * right_equation
