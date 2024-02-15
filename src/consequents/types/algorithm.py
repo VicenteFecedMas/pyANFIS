@@ -1,41 +1,39 @@
 import torch
 
-from consequents.algorithms.LM import LM
-from consequents.algorithms.LSTSQ import LSTSQ
-from consequents.algorithms.RLSE import RLSE
+from algorithms import LSTSQ, RLSE
 
 ALGORITHMS = {
     "LSTSQ": lambda n_vars: LSTSQ(n_vars),
-    "LM": lambda n_vars: LM(n_vars),
     "RLSE":  lambda n_vars: RLSE(n_vars),
 }
+
 
 
 class Algorithm(torch.nn.Module):
     def __init__(self, n_vars, parameters_update,  algorithm="LSTSQ") -> None:
         super().__init__()
         
+        self.name = algorithm
         self.parameters_update = parameters_update
 
-        if algorithm not in ALGORITHMS:
-            raise ValueError(f"Invalid algorithm name: {algorithm}. Supported algorithms are {list(ALGORITHMS.keys())}")
+        self.algorithm_name = algorithm
+        if self.name not in ALGORITHMS:
+            raise ValueError(f"Invalid algorithm name: {self.name}. Supported algorithms are {list(ALGORITHMS.keys())}")
         
-        self.name = algorithm
-        self.algorithm = ALGORITHMS[algorithm](n_vars)
-        self.dim = (n_vars, 1)
+        self.theta = None
+        self.algorithm = None
 
-        if parameters_update == "backward":
+    def generate_theta(self, n_vars):
+        if self.parameters_update == "backward":
             self.theta = torch.nn.Parameter(torch.zeros((n_vars, 1), requires_grad=True))
         else:
-            self.theta = None
-        
+            self.algorithm = ALGORITHMS[self.algorithm_name](n_vars)
+
     def forward(self, x, y=None):
-        if self.parameters_update == "backward":
-            return self.theta 
-        else:
+        if self.parameters_update != "backward":
             self.algorithm.training = self.training
             self.theta = self.algorithm(x.clone().detach(), y)
-            return self.theta
+
     
     def __repr__(self):
         return f"{self.name} Algorithm"

@@ -1,1 +1,3 @@
-__all__ = ["functions", "main"]
+from .antecedents import Antecedents
+
+__all__ = ["Antecedents"]

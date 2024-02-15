@@ -1,1 +1,3 @@
-__all__ = ["intersection_algorithms", "relation_algorithms", "main"]
+from .rules import Rules
+
+__all__ = ["Rules"]

@@ -1,11 +1,8 @@
 import torch
-import torch.nn as nn
-import torch.nn.functional as F
-import numpy as np
 
 class RLSE(torch.nn.Module):
     def __init__(self, n_vars, initialGamma=1000.):
-        super(RLSE, self).__init__()
+        super().__init__()
         self.S = torch.eye(n_vars) * initialGamma
         self.theta = torch.zeros((n_vars, 1))
         self.gamma = 1000
