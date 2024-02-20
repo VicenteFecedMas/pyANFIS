@@ -27,8 +27,8 @@ class Gauss(torch.nn.Module):
     tensor([[0.1353, 0.2780, 0.4868, 0.7261, 0.9231, 1.0000, 0.9231, 0.7261, 0.4868,
     0.2780, 0.1353]], grad_fn=<ExpBackward0>)
     """
-    def __init__(self, mean: float, std: float) -> None:
-        super(Gauss, self).__init__()
+    def __init__(self, std: float, mean: float) -> None:
+        super().__init__()
         self.mean = torch.nn.Parameter(torch.tensor(mean, dtype=float), requires_grad=True)
         self.std = torch.nn.Parameter(torch.tensor(std, dtype=float), requires_grad=True)
     

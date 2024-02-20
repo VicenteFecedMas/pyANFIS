@@ -17,15 +17,13 @@ class TakagiSugeno(torch.nn.Module):
 
         x_b, x_i, _ = X.size()
 
-        output = {"Output 1": torch.zeros((x_b, x_i , self.num_outputs))}
+        output = {f"Output {i+1}": torch.zeros((x_b, x_i , 1)) for i in range(self.num_outputs)}
         X = torch.einsum('bri, brj -> brij', f, X).view(x_b, x_i, -1)
 
-        for algorithm in self.universes.values():
-            var = 0
+        for i, (key, algorithm) in enumerate(self.universes.items()):
             if self.training:
                 algorithm.training = self.training
-                algorithm(X, Y[:, :, var:var+1])
-      
-            output["Output 1"][:, :, var:var+1] += torch.einsum('bij, jk -> bik', X, algorithm.theta)
-            var += 1     
+                algorithm(X, Y[:, :, i:i+1])
+            output[key] = output[key] + torch.einsum('bij, jk -> bik', X, algorithm.theta)
+   
         return output 

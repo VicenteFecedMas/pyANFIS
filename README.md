@@ -9,9 +9,9 @@ This framework is based on [Jang's](https://www.researchgate.net/publication/311
 - [ ] Create documentation for each class and function.
 - [ ] Create an installation tutorial.
 - [x] Consequent parameters can be estimated using backpropagation.
-- [ ] Type 1 (Tsukamoto) consequents can be used.
+- [X] Type 1 (Tsukamoto) consequents can be used.
 - [ ] Type 2 (Lee) consequents can be used.
-- [ ] Antecedents can merge when 2 functions cover a similar area.
+- [ ] Functions inside a universe can merge when 2 functions cover a similar area.
 - [ ] Automatically not use rules when they are not relevant.
-- [ ] Display what rules have been fired with a certain data.
+- [X] Display what rules have been fired with a certain data.
 - [ ] Create a method to substitute a trained ANFIS with a surface like in [Matlab](https://www.mathworks.com/help/fuzzy/genfis.html#d126e35957).

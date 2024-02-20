@@ -12,8 +12,8 @@ class Tsukamoto(torch.nn.Module):
         self.active_rules = None
 
     def forward(self, f):
-        outputs = {"Output 1": torch.zeros(f.size(0), f.size(1), 1)}
-        for ith_output, (key, universe) in enumerate(self.universes.items()):
+        outputs = {f"Output {i+1}": torch.zeros(f.size(0), f.size(1), 1) for i in range(self.num_outputs)}
+        for key, universe in self.universes.items():
             X = torch.linspace(universe.min, universe.max, 200)
             functions_list = []
             debug = []

@@ -27,8 +27,8 @@ class Sigmoid(torch.nn.Module):
     tensor([[0.1192, 0.1680, 0.2315, 0.3100, 0.4013, 0.5000, 0.5987, 0.6900, 0.7685,
     0.8320, 0.8808]], grad_fn=<MulBackward0>)
     """
-    def __init__(self, center: float, width: float) -> None:
-        super(Sigmoid, self).__init__()
+    def __init__(self, width: float, center: float) -> None:
+        super().__init__()
         self.center = torch.nn.Parameter(torch.tensor(center, dtype=float), requires_grad=True)
         self.width = torch.nn.Parameter(torch.tensor(width, dtype=float), requires_grad=True)
     

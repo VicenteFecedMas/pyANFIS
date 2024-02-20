@@ -5,7 +5,8 @@ from rules import Rules
 from consequents import Consequents
 
 class ANFIS(torch.nn.Module):
-    def __init__(self, num_inputs:int, num_outputs:int, system_type:str="Takagi-Sugeno", consequents_parameters_update:str = 'backward', optimizer=torch.optim.SGD):
+    def __init__(self, num_inputs:int, num_outputs:int, system_type:str="Takagi-Sugeno", consequents_parameters_update:str = 'backward', optimizer=torch.optim.SGD,
+                 erase_irrelevant_rules=False):
         super().__init__()
         self.num_inputs = num_inputs
         self.num_outputs = num_outputs
@@ -21,10 +22,14 @@ class ANFIS(torch.nn.Module):
 
         self.active_rules = None
         self.active_rules_consequents = None
+        self.rules_relevancy = None
+        self.erase_irrelevant_rules = erase_irrelevant_rules
 
         # The next to are pointers, NOT copies
         self.inputs = self.antecedents.universes # To make renaming easier
         self.outputs = self.consequents.consequents.universes # To make renaming easier
+
+        self.firing_strength = None
 
     def _auto_rules(self):
         self.rules.generate_rules([len(item.functions.keys()) for _, item in self.antecedents.universes.items()])
@@ -142,13 +147,24 @@ class ANFIS(torch.nn.Module):
         for universe in self.antecedents.universes.values():
             if universe.name not in list(kwargs.keys()):
                 raise ValueError(f"Universe name {universe.name} not present in input variables {list(kwargs.keys())}")
-
-            if X is None:
-                X = kwargs[universe.name].unsqueeze(2)
-                del kwargs[universe.name]
+            if len(kwargs[universe.name].shape) == 0:
+                if X is None:
+                    X = kwargs[universe.name]
+                else:
+                    X = torch.stack((X, kwargs[universe.name]))
+            
+            elif len(kwargs[universe.name].shape) == 1:
+                if X is None:
+                    X = kwargs[universe.name]
+                else:
+                    X = torch.stack((X, kwargs[universe.name]))
             else:
-                X = torch.cat((X, kwargs[universe.name].unsqueeze(2)), dim=2)
-                del kwargs[universe.name]
+                if X is None:
+                    print(kwargs[universe.name])
+                    X = kwargs[universe.name].unsqueeze(2)
+                else:
+                    X = torch.cat((X, kwargs[universe.name].unsqueeze(2)), dim=1)
+            del kwargs[universe.name]
 
         if kwargs:
             for universe in self.consequents.consequents.universes.values():
@@ -165,7 +181,40 @@ class ANFIS(torch.nn.Module):
         if self.system_type == "Takagi-Sugeno" and Y is None and self.training is True:
             raise ValueError(f"If you use a {self.system_type} you need to feed the output values to train the system.")
 
+        if len(X.shape) == 1:
+            X = X.unsqueeze(0).unsqueeze(0)
+            if Y is not None:
+                Y = Y.unsqueeze(0).unsqueeze(0)
+
+        elif len(X.shape) == 2:
+            X = X.T.unsqueeze(0)
+            if Y is not None:
+                Y = Y.unsqueeze(0)
         return X, Y
+
+    def get_fired_rules(self, **kwargs):
+        self.training = False
+        X, _ = self._prepare_input_matrices(**kwargs)
+        if X.size(1) != 1:
+            raise ValueError(f"Only one row can be evaluated at a time")
+
+        f = self.antecedents(X)
+
+        self.rules.active_rules = self.active_rules
+        f, _ = self.rules(f) # col_indexes = rule place on each col
+        
+        f = self.normalisation(f, dim=2, p=1)
+
+        return {str(key.to(torch.int16).tolist()): float(strength) for key, strength in zip(self.active_rules,f[0, 0, :])}
+
+    def _irrelevant_rules_check(self, f):
+        relevancy = torch.mean(torch.mean(f, dim=0), dim=0)
+        if self.rules_relevancy is None:
+            self.rules_relevancy = relevancy
+        else:
+            self.rules_relevancy += relevancy
+
+        self.rules_relevancy = torch.nn.functional.normalize(self.rules_relevancy, dim=0, p=1)
 
 
     def forward(self, **kwargs):
@@ -176,10 +225,12 @@ class ANFIS(torch.nn.Module):
 
         self.rules.active_rules = self.active_rules
         f, _ = self.rules(f) # col_indexes = rule place on each col
-
+        
         f = self.normalisation(f, dim=2, p=1)
 
         self.consequents.consequents.active_rules = self.active_rules_consequents
-        f = self.consequents(X, f, Y)
+        output = self.consequents(X, f, Y)
+        if self.erase_irrelevant_rules:
+            self._irrelevant_rules_check(f)
 
-        return f
+        return output

@@ -32,7 +32,7 @@ class Heaviside(torch.nn.Module):
     1.0000, 1.0000]], grad_fn=<AddBackward0>)
     """
     def __init__(self, left_equation = None, right_equation = None) -> None:
-        super(Heaviside, self).__init__()
+        super().__init__()
         self.left_equation = torch.tensor([1], dtype=float) if left_equation is None else left_equation
         self.right_equation = torch.tensor([1], dtype=float) if right_equation is None else right_equation
 
