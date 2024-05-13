@@ -24,8 +24,6 @@ class ANFIS(torch.nn.Module):
         self.rules_relevancy = None
         self.erase_irrelevant_rules = None
 
-        self.std_value = 10 #CAMBIAR PARA QUE SEA UN INPUT
-        # AÑADIR UN STD VALUE PARA LOS CONSEQUENTES
 
         # The next to are pointers
         self.inputs = self.antecedents.universes # To make renaming easier
@@ -110,24 +108,6 @@ class ANFIS(torch.nn.Module):
         self.rules.active_antecedents_rules = self.active_rules
 
     def parameters(self):
-        '''
-        for universe in self.antecedents.universes.values():
-            for function in universe.functions.values():
-                if function.is_resized == False:
-                    for name, value in vars(function)['_parameters'].items():
-                        new_value = torch.nn.Parameter(value * (self.std_value / self.get_conversion_number(universe.max)), requires_grad=True)
-                        setattr(function, name, new_value)
-                    function.is_resized = True
-    
-        if self.system_type != "Takagi-Sugeno":
-            for universe in self.consequents.consequents.universes.values():
-                for function in universe.functions.values():
-                    if function.is_resized == False:
-                        for name, value in vars(function)['_parameters'].items():
-                            new_value = torch.nn.Parameter(value * (self.std_value / self.get_conversion_number(universe.max)), requires_grad=True)
-                            setattr(function, name, new_value)
-                        function.is_resized = True
-        '''
         
         parameters = []
 
@@ -366,21 +346,33 @@ class ANFIS(torch.nn.Module):
         else:
             return float("0." + "0" * abs(x) + "1")
 
-    def forward(self, **kwargs):
-
-        X, Y = self._prepare_input_matrices(**kwargs)
-
+    def forward(self, X, Y):
         f = self.antecedents(X)
 
         self.rules.active_rules = self.active_rules
-        f, _ = self.rules(f) # col_indexes = rule place on each col
+        f = self.rules(f)
         
         f = self.normalisation(f, dim=2, p=1)
 
         self.consequents.consequents.active_rules = self.active_rules_consequents
-        output = self.consequents(X, f, Y)
-        '''
-        for name, universe in self.consequents.consequents.universes.items():
-            output[name] = output[name]*(self.get_conversion_number(universe.max)/self.std_value)
-        '''
+        output = self.consequents(f, X, Y)
+
         return output
+    
+    
+    def __call__(self, **kwargs):
+        '''
+        In the call step I will preprocess the data and discern if 
+        I am being asked a control/regression or a classification task.
+        '''
+
+        # I NEED TO DISCOVER HOW THE DATA ENTERS
+        if kwargs is control_dict:
+            X, Y = self._prepare_input_matrices(**kwargs)
+        
+        else:
+            X, Y = kwargs
+
+        return self.forward(X, Y)
+        
+

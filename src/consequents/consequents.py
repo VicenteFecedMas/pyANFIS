@@ -41,11 +41,7 @@ class Consequents(torch.nn.Module):
             raise ValueError("Recived {parameters_update} for parameters_update but it should be 'forward' or 'backward'.")
 
         self.parameters_update = parameters_update
-        self.consequents_algorithm = system_type
         self.consequents = CONSEQUENTS[system_type](num_inputs, num_outputs, parameters_update)
 
-    def forward(self, X, f, Y) -> torch.Tensor:
-        if self.consequents_algorithm == "Takagi-Sugeno":
-            return self.consequents(X, f, Y)
-        else:
-            return self.consequents(f)
+    def forward(self, f, X=None, Y=None) -> torch.Tensor:
+        return self.consequents(f,X, Y)

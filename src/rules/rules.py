@@ -59,4 +59,4 @@ class Rules(torch.nn.Module):
     
     def forward(self, x):
         x = self.intersection(self.relate_fuzzy_numbers(x)) # This is a 4D tensor
-        return x[:, :, :, 0], [self.binarice(rule) for rule in self.active_antecedents_rules]
+        return x[:, :, :, 0]

@@ -1,6 +1,6 @@
 import torch
 
-from .algorithm import Algorithm 
+from .algorithm import TakagiSugenoAlgorithm 
 
 
 class TakagiSugeno(torch.nn.Module):
@@ -23,11 +23,11 @@ class TakagiSugeno(torch.nn.Module):
     """
     def __init__(self, num_inputs, num_outputs, parameters_update) -> None:
         super().__init__()
-        self.universes = {f"Output {i+1}" :  Algorithm(num_inputs, parameters_update) for i in range(num_outputs)}
+        self.universes = {f"Output {i+1}" :  TakagiSugenoAlgorithm(num_inputs, parameters_update) for i in range(num_outputs)}
         self.parameters_update = parameters_update
         self.num_outputs = num_outputs
         
-    def forward(self, X, f, Y):
+    def forward(self,f, X=None, Y=None):
 
         ones = torch.ones(X.shape[:-1] + (1,), dtype=X.dtype)
         X = torch.cat([X, ones], dim=-1)
