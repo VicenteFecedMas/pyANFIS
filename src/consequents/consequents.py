@@ -1,17 +1,15 @@
 import torch
 
-from .types.algorithm import Algorithm 
 from .types.takagi_sugeno import TakagiSugeno
 from .types.tsukamoto import Tsukamoto
 from .types.lee import Lee
-
-from functions import Universe
 
 
 
 CONSEQUENTS = {
     "Takagi-Sugeno": lambda num_inputs, num_outputs, parameters_update: TakagiSugeno(num_inputs, num_outputs, parameters_update),
     "Tsukamoto": lambda num_inputs, num_outputs, parameters_update: Tsukamoto(num_inputs, num_outputs, parameters_update),
+    "Lee": lambda num_inputs, num_outputs, parameters_update: Lee(num_inputs, num_outputs, parameters_update),
 }
 
 class Consequents(torch.nn.Module):
@@ -35,9 +33,6 @@ class Consequents(torch.nn.Module):
     -------
     torch.tensor
         a tensor of size [n_batches, n_lines, n_functions]
-
-    Examples
-    --------
     """
     def __init__(self, num_inputs, num_outputs, parameters_update, system_type: str="Takagi-Sugeno"):
         super().__init__()

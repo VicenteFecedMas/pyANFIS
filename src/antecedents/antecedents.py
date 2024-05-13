@@ -29,17 +29,6 @@ class Antecedents(torch.nn.Module):
     -------
     torch.tensor
         a tensor of size [n_batches, n_lines, total_functions_of_all_universes]
-
-    Examples
-    --------
-    >>> x = torch.rand(1,10,2)
-    >>> antecedents = Antecedents(x=x, merge=False, heaviside=False)
-    >>> antecedents.automf(2)
-    >>> print(antecedents.universes)
-    {'0': Universe(), '1': Universe()}
-    >>> output = antecedents(x)
-    >>> print(output.size())
-    torch.Size([1, 10, 4])
     """
     def __init__(self, num_inputs: int, heaviside: bool=False) -> None:
         super(Antecedents, self).__init__()
@@ -54,7 +43,6 @@ class Antecedents(torch.nn.Module):
     def forward(self , X: torch.Tensor) -> torch.Tensor:
         width = len([function for key, universe in self.universes.items() for key, function in universe.functions.items()])
         fuzzy = torch.zeros(X.size(0), X.size(1), width)
-        
         for i, (key, universe) in enumerate(self.universes.items()):
             fuzzy[:, :, i*len(universe.functions):(i+1)*len(universe.functions)] = universe(X[:,:,i:i+1])
         

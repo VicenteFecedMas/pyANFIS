@@ -10,26 +10,15 @@ class Heaviside(torch.nn.Module):
 
     Attributes
     ----------
-    mean : float
-        center of the transition area
-    std :
-        width of the transition area
+    left_equation : torch.tensor
+        equation that will be present on the left
+    rigth_equation : torch.tensor
+        equation that will be present on the rigth
+
     Returns
     -------
     torch.tensor
         a tensor of equal size to the input tensor
-
-    Examples
-    --------
-    >>> gauss = Gauss(mean = 5., std = 2.5)
-    >>> heaviside = Heaviside(left_equation = gauss)
-    >>> input = torch.tensor([[0,1,2,3,4,5,6,7,8,9,10]], dtype=torch.float32)
-    >>> output = heaviside(input)
-    >>> print(output.size())
-    torch.Size([1, 11])
-    >>> print(output)
-    tensor([[0.1353, 0.2780, 0.4868, 0.7261, 0.9231, 1.0000, 1.0000, 1.0000, 1.0000,
-    1.0000, 1.0000]], grad_fn=<AddBackward0>)
     """
     def __init__(self, left_equation = None, right_equation = None) -> None:
         super().__init__()

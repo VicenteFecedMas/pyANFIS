@@ -1,8 +1,6 @@
 import torch
 
 from .gauss import Gauss
-from .sigmoid import Sigmoid
-from .heaviside import Heaviside
 
 
 class Universe(torch.nn.Module):
@@ -35,26 +33,15 @@ class Universe(torch.nn.Module):
     -------
     torch.tensor
         a tensor of size [n_batches, n_lines, n_functions]
-
-    Examples
-    --------
-    >>> x = torch.rand(1,10,1)
-    >>> universe = Universe(x=x, merge=False, heaviside=False, name="Universe 0")
-    >>> universe.automf(2)
-    >>> print(universe.universe)
-    {'Gauss_0': Gauss(), 'Gauss_1': Gauss()}
-    >>> output = universe(x)
-    >>> print(output.size())
-    torch.Size([1, 10, 2])
     """
     def __init__(self, name: str=None, merge: bool=False, heaviside: bool=False, range: list = [None, None]) -> None:
         super().__init__()
+        self._range = range
         self.min, self.max = range
         self.name = name
         self.merge = merge
         self.heaviside = heaviside
         self.functions = {}
-        self._range = range
 
     @property
     def range(self):

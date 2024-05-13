@@ -33,10 +33,6 @@ class Algorithm(torch.nn.Module):
         if self.parameters_update != "backward":
             self.algorithm.training = self.training
             self.theta = self.algorithm(x.clone().detach(), y)
-
-    
-    def __repr__(self):
-        return f"{self.name} Algorithm"
     
 
 

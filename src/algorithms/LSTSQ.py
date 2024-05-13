@@ -1,6 +1,22 @@
 import torch
 
+# TO BE FINISHED
 class LSTSQ(torch.nn.Module):
+    """
+    Computes the vector x that approximately solves the equation a @ x = b
+
+    Attributes
+    ----------
+    n_vars : float
+        length of the "x" vector
+    shoulder : float
+        shoulder of the linear S function
+
+    Returns
+    -------
+    torch.tensor
+        a tensor of equal size to the input tensor
+    """
     def __init__(self, n_vars, alpha=0.001, driver='gels') -> None:
         super().__init__()
 
@@ -23,4 +39,4 @@ class LSTSQ(torch.nn.Module):
                 self.theta = self.theta + theta * self.alpha
                 self.theta_dict[self.step] = self.theta
 
-        return self.theta_dict[self.step]
+        #return self.theta_dict[self.step]

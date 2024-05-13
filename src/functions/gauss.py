@@ -1,4 +1,5 @@
 import torch
+from .utils import init_parameter
 
 class Gauss(torch.nn.Module):
     """
@@ -15,22 +16,12 @@ class Gauss(torch.nn.Module):
     -------
     torch.tensor
         a tensor of equal size to the input tensor
-
-    Examples
-    --------
-    >>> gauss = Gauss(mean = 5., std = 2.5)
-    >>> input = torch.tensor([[0,1,2,3,4,5,6,7,8,9,10]], dtype=torch.float32)
-    >>> output = gauss(input)
-    >>> print(output.size())
-    torch.Size([1, 11])
-    >>> print(output)
-    tensor([[0.1353, 0.2780, 0.4868, 0.7261, 0.9231, 1.0000, 0.9231, 0.7261, 0.4868,
-    0.2780, 0.1353]], grad_fn=<ExpBackward0>)
     """
-    def __init__(self, std: float, mean: float) -> None:
+    def __init__(self, mean:float = None, std:float = None) -> None:
         super().__init__()
-        self.mean = torch.nn.Parameter(torch.tensor(mean, dtype=float), requires_grad=True)
-        self.std = torch.nn.Parameter(torch.tensor(std, dtype=float), requires_grad=True)
+        self.is_resized = False
+        self.mean = init_parameter(mean)
+        self.std = init_parameter(std)
     
     def get_center(self) -> torch.Tensor:
         return self.mean

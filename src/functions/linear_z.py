@@ -1,10 +1,27 @@
 import torch
+from .utils import init_parameter
 
 class LinearZ(torch.nn.Module):
-    def __init__(self, shoulder: float, foot: float) -> None:
+    """
+    Applies a linear Z transformation to the incoming data.
+
+    Attributes
+    ----------
+    foot : float
+        foot of the linear Z function
+    shoulder : float
+        shoulder of the linear Z function
+
+    Returns
+    -------
+    torch.tensor
+        a tensor of equal size to the input tensor
+    """
+    def __init__(self, shoulder:float = None, foot:float = None) -> None:
         super().__init__()
-        self.shoulder = torch.nn.Parameter(torch.tensor(shoulder, dtype=float), requires_grad=True)
-        self.foot = torch.nn.Parameter(torch.tensor(foot, dtype=float), requires_grad=True)
+        self.is_resized = False
+        self.shoulder = init_parameter(shoulder)
+        self.foot = init_parameter(foot)
     
     def get_center(self) -> torch.Tensor:
         return self.shoulder - self.foot
@@ -16,3 +33,11 @@ class LinearZ(torch.nn.Module):
         x = torch.minimum(x, torch.tensor(1))
         x = torch.maximum(x, torch.tensor(0))
         return x
+    
+    def __setitem__(self, key, value):
+        if key == "shoulder":
+            self.shoulder = init_parameter(value)
+        elif key == "foot":
+            self.foot = init_parameter(value)
+        else:
+            raise KeyError(f"Invalid key: {key}")

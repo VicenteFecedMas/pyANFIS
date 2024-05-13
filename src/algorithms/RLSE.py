@@ -1,9 +1,25 @@
 import torch
 
 class RLSE(torch.nn.Module):
-    def __init__(self, n_vars, initialGamma=1000.):
+    """
+    Computes the vector x that approximately solves the equation a @ x = b
+    using a recursive approach
+
+    Attributes
+    ----------
+    n_vars : float
+        length of the "x" vector
+    initial_gamma : float
+        big number to initialise the "S" matrix
+
+    Returns
+    -------
+    torch.tensor
+        a tensor of equal size to the input tensor
+    """
+    def __init__(self, n_vars, initial_gamma=1000.):
         super().__init__()
-        self.S = torch.eye(n_vars) * initialGamma
+        self.S = torch.eye(n_vars) * initial_gamma
         self.theta = torch.zeros((n_vars, 1))
         self.gamma = 1000
 
@@ -18,4 +34,4 @@ class RLSE(torch.nn.Module):
                 self.S = self.S - (torch.matmul(torch.matmul(torch.matmul(self.S, a.T), a), self.S)) / (1 + torch.matmul(torch.matmul(a, self.S), a.T))
                 self.theta =  self.theta + torch.matmul(self.S, torch.matmul(a.T, (b - torch.matmul(a, self.theta))))
 
-        return self.theta
+        #return self.theta

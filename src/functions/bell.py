@@ -1,11 +1,30 @@
 import torch
+from .utils import init_parameter
 
 class Bell(torch.nn.Module):
-    def __init__(self, width: float, shape: float, center: float) -> None:
+    """
+    Applies a bell transformation to the incoming data.
+
+    Attributes
+    ----------
+    width : float
+        width of the bell function
+    shape : float
+        shape of the transition area of the bell function
+    center : float
+        center of the bell function
+
+    Returns
+    -------
+    torch.tensor
+        a tensor of equal size to the input tensor
+    """
+    def __init__(self, width:float = None, shape:float = None, center:float = None) -> None:
         super().__init__()
-        self.center = torch.nn.Parameter(torch.tensor(center, dtype=float), requires_grad=True)
-        self.shape = torch.nn.Parameter(torch.tensor(shape, dtype=float), requires_grad=True)
-        self.width = torch.nn.Parameter(torch.tensor(width, dtype=float), requires_grad=True)
+        self.is_resized = False
+        self.center = init_parameter(center)
+        self.shape = init_parameter(shape)
+        self.width = init_parameter(width)
     
     def get_center(self) -> torch.Tensor:
         return self.center

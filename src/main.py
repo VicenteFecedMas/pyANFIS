@@ -1,19 +1,18 @@
 import torch
+import math
 
 from antecedents import Antecedents
 from rules import Rules
 from consequents import Consequents
 
 class ANFIS(torch.nn.Module):
-    def __init__(self, num_inputs:int, num_outputs:int, system_type:str="Takagi-Sugeno", consequents_parameters_update:str = 'backward', optimizer=torch.optim.SGD,
-                 erase_irrelevant_rules=False):
+    def __init__(self, num_inputs:int, num_outputs:int, system_type:str="Takagi-Sugeno", consequents_parameters_update:str = 'backward',):
         super().__init__()
         self.num_inputs = num_inputs
         self.num_outputs = num_outputs
         self.system_type = system_type
 
         self.params_update = consequents_parameters_update
-        self.optimizer = optimizer    
 
         self.antecedents = Antecedents(num_inputs)
         self.rules = Rules()
@@ -23,21 +22,16 @@ class ANFIS(torch.nn.Module):
         self.active_rules = None
         self.active_rules_consequents = None
         self.rules_relevancy = None
-        self.erase_irrelevant_rules = erase_irrelevant_rules
+        self.erase_irrelevant_rules = None
 
-        # The next to are pointers, NOT copies
+        self.std_value = 10 #CAMBIAR PARA QUE SEA UN INPUT
+        # AÑADIR UN STD VALUE PARA LOS CONSEQUENTES
+
+        # The next to are pointers
         self.inputs = self.antecedents.universes # To make renaming easier
         self.outputs = self.consequents.consequents.universes # To make renaming easier
 
         self.firing_strength = None
-
-    def _auto_rules(self):
-        self.rules.generate_rules([len(item.functions.keys()) for _, item in self.antecedents.universes.items()])
-        self.active_rules = self.rules.active_rules
-
-        if self.system_type == "Takagi-Sugeno":
-            for algorithm in self.outputs.values():
-                algorithm.generate_theta(self.active_rules.size(0) * (self.num_inputs + 1))
 
     def _create_binari_rule_from_indexes(self, is_pairs, rule_index):
         rule_list = []
@@ -46,10 +40,10 @@ class ANFIS(torch.nn.Module):
                 index = rule_index.index(f"{universe_name} {function_name}")
                 rule_list.append(index)
             except ValueError:
-                if universe_name in [i.name for i in self.antecedents.values()]:
-                    print(f"Function {function_name} not found in {universe_name}")
+                if universe_name in [i.name for i in self.inputs.values()]:
+                    raise ValueError(f"Function {function_name} not found in {universe_name}")
                 else:
-                    print(f"Universe {universe_name} not found in universe list")
+                    raise ValueError(f"Universe {universe_name} not found in universe list")
 
         rule_tensor = torch.zeros(len(rule_index))
         rule_tensor[rule_list] = 1
@@ -113,84 +107,84 @@ class ANFIS(torch.nn.Module):
         elif self.system_type == "Lee":
             pass
 
+        self.rules.active_antecedents_rules = self.active_rules
+
     def parameters(self):
+        '''
+        for universe in self.antecedents.universes.values():
+            for function in universe.functions.values():
+                if function.is_resized == False:
+                    for name, value in vars(function)['_parameters'].items():
+                        new_value = torch.nn.Parameter(value * (self.std_value / self.get_conversion_number(universe.max)), requires_grad=True)
+                        setattr(function, name, new_value)
+                    function.is_resized = True
+    
+        if self.system_type != "Takagi-Sugeno":
+            for universe in self.consequents.consequents.universes.values():
+                for function in universe.functions.values():
+                    if function.is_resized == False:
+                        for name, value in vars(function)['_parameters'].items():
+                            new_value = torch.nn.Parameter(value * (self.std_value / self.get_conversion_number(universe.max)), requires_grad=True)
+                            setattr(function, name, new_value)
+                        function.is_resized = True
+        '''
         
         parameters = []
 
         # Antecedents parameters
-        for _, universe in self.inputs.items():
-            for _, function in universe.functions.items():
+        for universe in self.antecedents.universes.values():
+            for function in universe.functions.values():
                 for param in function.parameters():
                     parameters.append(param)
 
         # Consequent parameters
         if self.params_update == "backward":
-            if self.system_type == "Takagi-Sugeno":
-                for algorithm in self.outputs.values():
-                    parameters.append(algorithm.theta)
-            else:
-                for _, universe in self.outputs.items():
-                    for _, function in universe.functions.items():
+            for universe in self.consequents.consequents.universes.values():
+                if self.system_type == "Takagi-Sugeno":
+                    parameters.append(universe.theta)
+                else:
+                    for function in universe.functions.values():
                         for param in function.parameters():
                             parameters.append(param)
-
+        #print([round(param.data.item(), 2) for param in parameters])
         return parameters
 
-    def step(self):
-        optimizer = self.optimizer(self.parameters())
-        optimizer.step()
+    def smart_concat(self, tensor_list):
+        dimensions = tensor_list[0].dim()
+        shape = tensor_list[0].shape
 
-    def _prepare_input_matrices(self, **kwargs):
-        X = None
-        Y = None
+        tensor_list = torch.stack(tensor_list, dim=-1)
+        if dimensions == 0:
+            return tensor_list.view(1,1,-1)
+        elif dimensions == 1:
+            return tensor_list.view(1,shape[0],-1)
+        elif dimensions == 2:
+            return tensor_list.view(shape[0], shape[1],-1)
+        elif dimensions == 3:
+            return tensor_list.view(shape[0], shape[1] * shape[2] , -1) 
         
+    def _prepare_input_matrices(self, **kwargs):
+        antecedents_tensor = []
         for universe in self.antecedents.universes.values():
             if universe.name not in list(kwargs.keys()):
                 raise ValueError(f"Universe name {universe.name} not present in input variables {list(kwargs.keys())}")
-            if len(kwargs[universe.name].shape) == 0:
-                if X is None:
-                    X = kwargs[universe.name]
-                else:
-                    X = torch.stack((X, kwargs[universe.name]))
-            
-            elif len(kwargs[universe.name].shape) == 1:
-                if X is None:
-                    X = kwargs[universe.name]
-                else:
-                    X = torch.stack((X, kwargs[universe.name]))
-            else:
-                if X is None:
-                    print(kwargs[universe.name])
-                    X = kwargs[universe.name].unsqueeze(2)
-                else:
-                    X = torch.cat((X, kwargs[universe.name].unsqueeze(2)), dim=1)
+            antecedents_tensor.append(kwargs[universe.name])
+            del kwargs[universe.name]
+        
+        if not kwargs and self.system_type == "Takagi-Sugeno" and self.training is True and self.params_update != "backward":
+            raise ValueError(f"If you use a {self.system_type} and do not update the system using backpropagation you need to feed the output values to train the system.")
+        elif not kwargs:
+            return self.smart_concat(antecedents_tensor), None
+         
+        consequents_tensor = []
+        for universe in self.consequents.consequents.universes.values():
+            if universe.name not in list(kwargs.keys()):
+                raise ValueError(f"Universe name {universe.name} not present in input variables {list(kwargs.keys())}")
+
+            consequents_tensor.append(kwargs[universe.name])
             del kwargs[universe.name]
 
-        if kwargs:
-            for universe in self.consequents.consequents.universes.values():
-                if universe.name not in list(kwargs.keys()):
-                    raise ValueError(f"Universe name {universe.name} not present in input variables {list(kwargs.keys())}")
-
-                if Y is None:
-                    Y = kwargs[universe.name]
-                    del kwargs[universe.name]
-                else:
-                    Y = torch.cat((X, kwargs[universe.name]), dim=2)
-                    del kwargs[universe.name]
-
-        if self.system_type == "Takagi-Sugeno" and Y is None and self.training is True:
-            raise ValueError(f"If you use a {self.system_type} you need to feed the output values to train the system.")
-
-        if len(X.shape) == 1:
-            X = X.unsqueeze(0).unsqueeze(0)
-            if Y is not None:
-                Y = Y.unsqueeze(0).unsqueeze(0)
-
-        elif len(X.shape) == 2:
-            X = X.T.unsqueeze(0)
-            if Y is not None:
-                Y = Y.unsqueeze(0)
-        return X, Y
+        return self.smart_concat(antecedents_tensor), self.smart_concat(consequents_tensor)
 
     def get_fired_rules(self, **kwargs):
         self.training = False
@@ -206,6 +200,152 @@ class ANFIS(torch.nn.Module):
         f = self.normalisation(f, dim=2, p=1)
 
         return {str(key.to(torch.int16).tolist()): float(strength) for key, strength in zip(self.active_rules,f[0, 0, :])}
+    
+    def state_dict(self):
+        params = {}
+
+        # Main
+        params["main"] = {}
+        params["main"]["num_inputs"] = self.num_inputs
+        params["main"]["num_outputs"] = self.num_outputs
+        params["main"]["system_type"] = self.system_type
+        params["main"]["params_update"] = self.params_update
+        params["main"]["active_rules"] = self.active_rules
+        params["main"]["rules_relevancy"] = self.rules_relevancy
+        params["main"]["active_rules_consequents"] = self.active_rules_consequents
+        params["main"]["erase_irrelevant_rules"] = self.erase_irrelevant_rules
+        params["main"]["firing_strength"] = self.firing_strength
+
+        # Antecedents
+        params["Antecedents"] = {}
+        params["Antecedents"]["universes"] = {}
+
+
+        # Each universe in the antecedents
+        for universe_name, universe in self.inputs.items():
+            params["Antecedents"]["universes"][universe_name] = {}
+            params["Antecedents"]["universes"][universe_name]["name"] = universe.name
+            params["Antecedents"]["universes"][universe_name]["min"] = universe.min
+            params["Antecedents"]["universes"][universe_name]["max"] = universe.max
+            params["Antecedents"]["universes"][universe_name]["merge"] = universe.merge
+            params["Antecedents"]["universes"][universe_name]["heaviside"] = universe.heaviside
+            params["Antecedents"]["universes"][universe_name]["functions"] = {}
+
+            for function_name, function in universe.functions.items():
+                params["Antecedents"]["universes"][universe_name]["functions"][function_name] = {}
+                params["Antecedents"]["universes"][universe_name]["functions"][function_name]["type"] = str(function)[:-2]
+                params["Antecedents"]["universes"][universe_name]["functions"][function_name]["parameters"] = {}
+                for name, value in vars(function)['_parameters'].items():
+                    params["Antecedents"]["universes"][universe_name]["functions"][function_name]["parameters"][name] = value
+
+        # Consequents
+        params["Consequents"] = {}
+        params["Consequents"]["universes"] = {}
+
+        for universe_name, universe in self.outputs.items():
+            params["Consequents"]["universes"][universe_name] = {}
+            params["Consequents"]["universes"][universe_name]["name"] = universe.name
+            params["Consequents"]["universes"][universe_name]["min"] = universe.min
+            params["Consequents"]["universes"][universe_name]["max"] = universe.max
+            params["Consequents"]["universes"][universe_name]["merge"] = universe.merge
+            params["Consequents"]["universes"][universe_name]["heaviside"] = universe.heaviside
+
+            # Takagi Sugeno
+            if self.system_type == "Takagi-Sugeno":
+                params["Consequents"]["universes"][universe_name][universe.algorithm_name] = {}
+                params["Consequents"]["universes"][universe_name][universe.algorithm_name]["name"] = universe.name
+                params["Consequents"]["universes"][universe_name][universe.algorithm_name]["theta"] = universe.theta
+                params["Consequents"]["universes"][universe_name][universe.algorithm_name]["algorithm"] = universe.algorithm
+                
+
+            # Tsukamoto and Lee
+            else:
+                params["Consequents"]["universes"][universe_name]["functions"] = {}
+                for function_name, function in universe.functions.items():
+                    params["Consequents"]["universes"][universe_name]["functions"][function_name] = {}
+                    params["Consequents"]["universes"][universe_name]["functions"][function_name]["type"] = str(function)[:-2]
+                    params["Consequents"]["universes"][universe_name]["functions"][function_name]["parameters"] = {}
+                    for name, value in vars(function)['_parameters'].items():
+                        params["Consequents"]["universes"][universe_name]["functions"][function_name]["parameters"][name] = value
+        return params
+    
+    def load_state_dict(self, state_dict):
+        # Load Main
+        if self.num_inputs != state_dict["main"]["num_inputs"]:
+            raise ImportError(f"Atempting to import a system with {state_dict['main']['num_inputs']} inputs into a created system of {self.num_inputs} inputs.")
+        
+        if self.num_outputs != state_dict["main"]["num_outputs"]:
+            raise ImportError(f"Atempting to import a system with {state_dict['main']['num_outputs']} outputs into a created system of {self.num_outputs} outputs.")
+        
+        self.system_type = state_dict["main"]["system_type"]
+        self.params_update = state_dict["main"]["params_update"]
+
+        self.antecedents = Antecedents(self.num_inputs)
+        self.rules = Rules()
+        self.normalisation = torch.nn.functional.normalize
+        self.consequents = Consequents(num_inputs=self.num_inputs, num_outputs=self.num_outputs, parameters_update=self.params_update, system_type=self.system_type)
+
+        self.active_rules = state_dict["main"]["active_rules"]
+        self.active_rules_consequents = state_dict["main"]["active_rules_consequents"]
+        self.rules_relevancy = state_dict["main"]["rules_relevancy"]
+        self.erase_irrelevant_rules = state_dict["main"]["erase_irrelevant_rules"]
+
+        self.firing_strength = state_dict["main"]["firing_strength"]
+
+        # Load Antecedents
+        for universe_name, universe in self.antecedents.universes.items():
+            universe.name = state_dict["Antecedents"]["universes"][universe_name]["name"]
+            universe.min = state_dict["Antecedents"]["universes"][universe_name]["min"]
+            universe.max = state_dict["Antecedents"]["universes"][universe_name]["max"]
+            universe.merge = state_dict["Antecedents"]["universes"][universe_name]["merge"]
+            universe.heaviside = state_dict["Antecedents"]["universes"][universe_name]["heaviside"]
+
+            # Loading functions
+            for function_name, function_params in state_dict["Antecedents"]["universes"][universe_name]["functions"].items():
+                function_type = function_params["type"]
+                function_params = function_params["parameters"]
+                try:
+                    module = __import__("functions", fromlist=[function_type])
+                    universe.functions[function_name] =  getattr(module, function_type)()
+                except ImportError:
+                    raise ImportError(f"Error: Class {function_type} not found in the 'functions' folder.")
+
+                for name, value in function_params.items():
+                    universe.functions[function_name][name] = value
+
+        # Load Consequents
+        for universe_name, universe in self.consequents.consequents.universes.items():
+            universe.name = state_dict["Consequents"]["universes"][universe_name]["name"]
+            universe.min = state_dict["Consequents"]["universes"][universe_name]["min"]
+            universe.max = state_dict["Consequents"]["universes"][universe_name]["max"]
+            universe.merge = state_dict["Consequents"]["universes"][universe_name]["merge"]
+            universe.heaviside = state_dict["Consequents"]["universes"][universe_name]["heaviside"]
+
+            # Takagi Sugeno
+            if self.system_type == "Takagi-Sugeno":
+                universe.name = state_dict["Consequents"]["universes"][universe_name][universe.algorithm_name]["name"]
+                universe.theta = state_dict["Consequents"]["universes"][universe_name][universe.algorithm_name]["theta"]
+                universe.algorithm = state_dict["Consequents"]["universes"][universe_name][universe.algorithm_name]["algorithm"]
+
+            # Tsukamoto and Lee
+            else:
+                # Loading functions
+                for function_name, function_params in state_dict["Consequents"]["universes"][universe_name]["functions"].items():
+                    function_type = function_params["type"]
+                    function_params = function_params["parameters"]
+
+                    try:
+                        module = __import__("functions", fromlist=[function_type])
+                        universe.functions[function_name] =  getattr(module, function_type)()
+                    except ImportError:
+                        raise ImportError(f"Error: Class {function_type} not found in the 'functions' folder.")
+
+                    for name, value in function_params.items():
+                        universe.functions[function_name][name] = value
+        
+        # The next to are pointers
+        self.inputs = self.antecedents.universes # To make renaming easier
+        self.outputs = self.consequents.consequents.universes # To make renaming easier
 
     def _irrelevant_rules_check(self, f):
         relevancy = torch.mean(torch.mean(f, dim=0), dim=0)
@@ -216,6 +356,15 @@ class ANFIS(torch.nn.Module):
 
         self.rules_relevancy = torch.nn.functional.normalize(self.rules_relevancy, dim=0, p=1)
 
+    def get_conversion_number(self, x):
+        if x == 0:
+            return 1.0
+        
+        x = math.floor(math.log10(abs(x)))
+        if x > 0:
+            return float("1" + "0" * x)
+        else:
+            return float("0." + "0" * abs(x) + "1")
 
     def forward(self, **kwargs):
 
@@ -230,7 +379,8 @@ class ANFIS(torch.nn.Module):
 
         self.consequents.consequents.active_rules = self.active_rules_consequents
         output = self.consequents(X, f, Y)
-        if self.erase_irrelevant_rules:
-            self._irrelevant_rules_check(f)
-
+        '''
+        for name, universe in self.consequents.consequents.universes.items():
+            output[name] = output[name]*(self.get_conversion_number(universe.max)/self.std_value)
+        '''
         return output
