@@ -23,7 +23,7 @@ class TakagiSugeno(torch.nn.Module):
     """
     def __init__(self, num_inputs, num_outputs, parameters_update) -> None:
         super().__init__()
-        self.universes = {f"Output {i+1}" :  TakagiSugenoAlgorithm(num_inputs, parameters_update) for i in range(num_outputs)}
+        self.universes = {f"Output {i+1}" : TakagiSugenoAlgorithm(num_inputs, parameters_update) for i in range(num_outputs)}
         self.parameters_update = parameters_update
         self.num_outputs = num_outputs
         
@@ -34,16 +34,14 @@ class TakagiSugeno(torch.nn.Module):
 
         x_b, x_i, _ = X.size()
 
-        output = {f"Output {i+1}": torch.zeros((x_b, x_i , 1)) for i in range(self.num_outputs)}
+        #output = {f"Output {i+1}": torch.zeros((x_b, x_i , 1)) for i in range(self.num_outputs)}
+        outputs = torch.zeros(f.size(0), f.size(1), len(self.num_outputs))
         X = torch.einsum('bri, brj -> brij', f, X).view(x_b, x_i, -1)
 
-        for i, (key, algorithm) in enumerate(self.universes.items()):
-            if self.training:
-                algorithm.training = self.training
-
+        for i, (algorithm) in enumerate(self.universes.values()):
             if Y is not None:
                 algorithm(X, Y[:, :, i:i+1])
 
-            output[key] = output[key] + torch.einsum('bij, jk -> bik', X, algorithm.theta)
+            outputs[:, :, i] = outputs[:, :, i] + torch.einsum('bij, jk -> bik', X, algorithm.theta)
    
-        return output 
+        return outputs

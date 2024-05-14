@@ -30,8 +30,9 @@ class Tsukamoto(torch.nn.Module):
         self.active_rules = None
 
     def forward(self, f):
-        outputs = {f"Output {i+1}": torch.zeros(f.size(0), f.size(1), 1) for i in range(self.num_outputs)}
-        for key, universe in self.universes.items():
+        #outputs = {f"Output {i+1}": torch.zeros(f.size(0), f.size(1), 1) for i in range(self.num_outputs)}
+        outputs = torch.zeros(f.size(0), f.size(1), len(self.num_outputs))
+        for j, universe in enumerate(self.universes.values()):
             X = torch.linspace(universe.min, universe.max, 200)
             functions_list = []
             for name, function in universe.functions.items():
@@ -49,5 +50,5 @@ class Tsukamoto(torch.nn.Module):
             for b, batch in enumerate(f):
                 for i, row in enumerate(batch):
                     Y = torch.min(function_rules, row.view(-1, 1))  
-                    outputs[key][b, i, 0] = torch.sum(X * Y) / torch.sum(Y)
+                    outputs[b, i, j] = torch.sum(X * Y) / torch.sum(Y)
         return outputs

@@ -28,5 +28,4 @@ class TakagiSugenoAlgorithm(torch.nn.Module):
 
     def forward(self, x, y=None):
         if self.parameters_update != "backward":
-            self.algorithm.training = self.training
-            self.theta = self.algorithm(x.clone().detach(), y)
+            self.theta = self.algorithm(x.clone().detach(), y.clone().detach())
