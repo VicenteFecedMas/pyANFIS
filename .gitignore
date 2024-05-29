@@ -5,5 +5,5 @@ examples/
 .gitignore
 .gitattributes
 pyproject.toml
-.dist/
-.build/
+dist/
+build/
