@@ -7,7 +7,6 @@ INTERSECTIONS = {
     'mamdani': mamdani,
 }
 
-
 class Rules(torch.nn.Module):
     """
     This class will contain all the rules of the system,
@@ -45,11 +44,12 @@ class Rules(torch.nn.Module):
         INPUT: FN es Funny numbers matrix y R es rules matrix
         OUTPUT: FA Fuzzy And matrix
         '''
-        rules_per_universe = torch.zeros((fuzzy_numbers_matrix.size(0), fuzzy_numbers_matrix.size(1), self.active_antecedents_rules.size(0), fuzzy_numbers_matrix.size(2)))
-        for b, _ in enumerate(fuzzy_numbers_matrix):
-            for i, _ in enumerate(fuzzy_numbers_matrix[b, :, :]):
-                rules_per_universe[b, i, :, :] = fuzzy_numbers_matrix[b, i, :] * self.active_antecedents_rules
-        return rules_per_universe
+        fuzzy_numbers_matrix_expanded = fuzzy_numbers_matrix.unsqueeze(2)
+        active_antecedents_rules_expanded = self.active_antecedents_rules.unsqueeze(0).unsqueeze(0)
+
+        # Perform element-wise multiplication with broadcasting
+        return fuzzy_numbers_matrix_expanded * active_antecedents_rules_expanded
+        
 
     def binarice(self, binary_list: torch.Tensor) -> str:
         return str(int(''.join(str(int(i)) for i in binary_list), 2))

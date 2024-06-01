@@ -5,6 +5,8 @@ from pyanfis.antecedents import Antecedents
 from pyanfis.rules import Rules
 from pyanfis.consequents import Consequents
 
+from time import time
+
 class ANFIS(torch.nn.Module):
     def __init__(self, num_inputs:int, num_outputs:int, system_type:str="Takagi-Sugeno", parameters_update:str = 'backward',):
         super().__init__()
@@ -352,11 +354,12 @@ class ANFIS(torch.nn.Module):
         
 
     def forward(self, X, Y):
+
         f = self.antecedents(X)
 
         self.rules.active_rules = self.active_rules
         f = self.rules(f)
-        
+
         f = self.normalisation(f, dim=2, p=1)
 
         self.consequents.consequents.active_rules = self.active_rules_consequents
@@ -378,7 +381,6 @@ class ANFIS(torch.nn.Module):
             return args[0], args[1]
 
     def __call__(self, *args, **kwargs):
-
         if args and kwargs:
             raise ValueError("All the arguments must be either arguments or keyword arguments, but you cannot mix between both")
 
