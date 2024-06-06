@@ -25,7 +25,7 @@ def plot_universe(model, universe_name):
     plt.title(universe.name)
     plt.margins(x=0)
 
-    X = torch.linspace(universe.range[0], universe.range[1], 100)
+    X = torch.linspace(universe.min, universe.max, 100)
         
     for function_name, function in universe.functions.items():
         Y = function(X)

@@ -287,13 +287,13 @@ class ANFIS(torch.nn.Module):
                 function_type = function_params["type"]
                 function_params = function_params["parameters"]
                 try:
-                    module = __import__("functions", fromlist=[function_type])
+                    module = __import__("pyanfis.functions", fromlist=[function_type])
                     universe.functions[function_name] =  getattr(module, function_type)()
                 except ImportError:
                     raise ImportError(f"Error: Class {function_type} not found in the 'functions' folder.")
 
                 for name, value in function_params.items():
-                    universe.functions[function_name][name] = value
+                    universe.functions[function_name]._parameters[name] = value
 
         # Load Consequents
         for universe_name, universe in self.consequents.consequents.universes.items():
@@ -317,13 +317,13 @@ class ANFIS(torch.nn.Module):
                     function_params = function_params["parameters"]
 
                     try:
-                        module = __import__("functions", fromlist=[function_type])
+                        module = __import__("pyanfis.functions", fromlist=[function_type])
                         universe.functions[function_name] =  getattr(module, function_type)()
                     except ImportError:
                         raise ImportError(f"Error: Class {function_type} not found in the 'functions' folder.")
 
                     for name, value in function_params.items():
-                        universe.functions[function_name][name] = value
+                        universe.functions[function_name]._parameters[name] = value
         
         # The next to are pointers
         self.inputs = self.antecedents.universes # To make renaming easier
@@ -357,7 +357,7 @@ class ANFIS(torch.nn.Module):
 
         f = self.antecedents(X)
 
-        self.rules.active_rules = self.active_rules
+        self.rules.active_antecedents_rules = self.active_rules
         f = self.rules(f)
 
         f = self.normalisation(f, dim=2, p=1)

@@ -1,7 +1,6 @@
 LICENSE
 README.md
 pyproject.toml
-src/pyanfis/__init__.py
 src/pyanfis/anfis.py
 src/pyanfis.egg-info/PKG-INFO
 src/pyanfis.egg-info/SOURCES.txt
