@@ -30,21 +30,25 @@ class Antecedents(torch.nn.Module):
     torch.tensor
         a tensor of size [n_batches, n_lines, total_functions_of_all_universes]
     """
-    def __init__(self, num_inputs: int, heaviside: bool=False) -> None:
-        super(Antecedents, self).__init__()
-        self.num_inputs = num_inputs
-        self.heaviside = heaviside
-        self.universes = {f"Input {i+1}": Universe() for i in range(num_inputs)}
+    def __init__(self, universes:dict) -> None:
+        super().__init__()
+        self.universes = {name: Universe(values) for name, values in universes.items()}
+
 
     def automf(self, n_func: int=2) -> None:
+        """This function will automatically asign equally spaced functions to all the 
+        universes inside the antecedents"""
         for key in self.universes.keys():
             self.universes[key].automf(n_func=n_func)
 
     def forward(self , X: torch.Tensor) -> torch.Tensor:
-        width = len([function for key, universe in self.universes.items() for key, function in universe.functions.items()])
+        width = sum([len(universe.functions) for universe in self.universes.values()])
         fuzzy = torch.zeros(X.size(0), X.size(1), width)
-        for i, (key, universe) in enumerate(self.universes.items()):
-            fuzzy[:, :, i*len(universe.functions):(i+1)*len(universe.functions)] = universe(X[:,:,i:i+1])
+
+        start_col = 0
+        for i, universe in enumerate(self.universes.values()):
+            fuzzy[:, :, start_col:start_col+len(universe.functions)] = universe(X[:,:,i:i+1])
+            start_col += len(universe.functions)
         
         fuzzy[torch.isnan(fuzzy)] = 1
         return fuzzy

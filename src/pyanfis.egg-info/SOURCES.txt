@@ -1,7 +1,9 @@
 LICENSE
 README.md
 pyproject.toml
+src/pyanfis/__init__.py
 src/pyanfis/anfis.py
+src/pyanfis/utils.py
 src/pyanfis.egg-info/PKG-INFO
 src/pyanfis.egg-info/SOURCES.txt
 src/pyanfis.egg-info/dependency_links.txt
@@ -24,6 +26,7 @@ src/pyanfis/functions/heaviside.py
 src/pyanfis/functions/linear_s.py
 src/pyanfis/functions/linear_z.py
 src/pyanfis/functions/sigmoid.py
+src/pyanfis/functions/triangular.py
 src/pyanfis/functions/universe.py
 src/pyanfis/functions/utils.py
 src/pyanfis/pyplot/__init__.py
@@ -31,5 +34,4 @@ src/pyanfis/pyplot/functions_plotting.py
 src/pyanfis/pyplot/structure_plotting.py
 src/pyanfis/rules/__init__.py
 src/pyanfis/rules/intersection_algorithms.py
-src/pyanfis/rules/relation_algorithms.py
 src/pyanfis/rules/rules.py

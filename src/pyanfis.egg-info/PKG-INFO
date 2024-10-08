@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: pyanfis
-Version: 0.1.8
+Version: 0.1.12
 Summary: A pytorch-based package to use ANFIS for AI
 Author-email: Vicente Feced Mas <vicente.feced.mas@gmail.com>
 Project-URL: Homepage, https://github.com/VicenteFecedMas/pyanfis

@@ -26,6 +26,7 @@ class Bell(torch.nn.Module):
         self.width = init_parameter(width)
     
     def get_center(self) -> torch.Tensor:
+        """Util to get the center of the function"""
         return self.center
     
     def forward(self, x) -> torch.Tensor:

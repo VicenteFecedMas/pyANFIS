@@ -33,14 +33,18 @@ class Gauss(torch.nn.Module):
         self.std = init_parameter(std)
     
     def get_center(self) -> torch.Tensor:
+        """Util to get the center of the function"""
         return self.mean
     
+    def __setitem__(self, key, value):
+        if key == "mean":
+            self.mean = init_parameter(value)
+        elif key == "std":
+            self.std = init_parameter(value)
+        else:
+            raise KeyError(f"Invalid key: {key}")
+
     def forward(self, x) -> torch.Tensor:
-        #if not self.mean:
-        #    raise RuntimeError(r"Expected mean to be a number but got None")
-        #if not self.std:
-        #    raise RuntimeError(r"Expected std to have a number but got None")
-        
         x = x - self.mean
         x = (x)** 2
         x = -(x)/ (2 * (self.std ** 2))

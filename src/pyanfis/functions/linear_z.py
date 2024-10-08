@@ -32,7 +32,7 @@ class LinearZ(torch.nn.Module):
         x = torch.minimum(x, torch.tensor(1))
         x = torch.maximum(x, torch.tensor(0))
         return x
-    
+
     def __setitem__(self, key, value):
         if key == "shoulder":
             self.shoulder = init_parameter(value)
@@ -40,3 +40,4 @@ class LinearZ(torch.nn.Module):
             self.foot = init_parameter(value)
         else:
             raise KeyError(f"Invalid key: {key}")
+        

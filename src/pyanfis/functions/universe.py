@@ -1,5 +1,6 @@
 import torch
 
+from .utils import init_parameter
 from .gauss import Gauss
 
 
@@ -34,14 +35,15 @@ class Universe(torch.nn.Module):
     torch.tensor
         a tensor of size [n_batches, n_lines, n_functions]
     """
-    def __init__(self, name: str=None, merge: bool=False, heaviside: bool=False, range: list = [None, None]) -> None:
+    def __init__(self, parameters) -> None:
         super().__init__()
-        self._range = range
-        self.min, self.max = range
-        self.name = name
-        self.merge = merge
-        self.heaviside = heaviside
+        self._range = parameters.get("range", (None, None))
+        self.min, self.max = parameters.get("range", (None, None))
+        self.name = parameters.get("name", None)
         self.functions = {}
+        for function_name, values in parameters.get("functions", {}).items():
+            self.functions[function_name] = self._load_function(values["type"], values["parameters"])
+
 
     @property
     def range(self):
@@ -62,6 +64,19 @@ class Universe(torch.nn.Module):
         self.min = self._range[0]
         self.max = self._range[1]
 
+    def _load_function(self, function_type, function_params):
+        """loads a function given a name and its params"""
+        try:
+            module = __import__("pyanfis.functions", fromlist=[function_type])
+            imported_function =  getattr(module, function_type)()
+        except ImportError:
+            raise ImportError(f"Error: Class {function_type} not found in the 'functions' folder.")
+
+        for name, value in function_params.items():
+           imported_function._parameters[name] = init_parameter(value)
+
+        return imported_function
+    
     def get_centers_and_intervals(self, n_func: int) -> tuple:
         interval = (self.max - self.min)/ (n_func - 1)
         return [float(self.min + interval * i) for i in range(n_func)], [float(interval) for _ in range(n_func)]
@@ -84,3 +99,5 @@ class Universe(torch.nn.Module):
             else:
                 fuzzy = torch.cat((fuzzy, function(x)), dim=2)
         return fuzzy
+    
+    

@@ -21,34 +21,40 @@ class Tsukamoto(torch.nn.Module):
     dict
         a dictionary that will contain the prediction related to each output
     """
-    def __init__(self, num_inputs, num_outputs, parameters_update) -> None:
+    def __init__(self, parameters) -> None:
         super().__init__()
-        self.universes = {f"Output {i+1}": Universe() for i in range(num_outputs)}
-        # Aqui tengo que meter sigmoides para cada output
-        self.parameters_update = parameters_update
-        self.num_outputs = num_outputs
-        self.active_rules = None
+        self.universe = Universe(parameters)
 
-    def forward(self, f):
-        #outputs = {f"Output {i+1}": torch.zeros(f.size(0), f.size(1), 1) for i in range(self.num_outputs)}
-        outputs = torch.zeros(f.size(0), f.size(1), self.num_outputs)
-        for j, universe in enumerate(self.universes.values()):
-            X = torch.linspace(universe.min, universe.max, 200)
-            functions_list = []
-            for name, function in universe.functions.items():
-                functions_list.append(function(X))
+    def _load_function(self, function_type, function_params):
+        """loads a function given a name and its params"""
+        try:
+            module = __import__("pyanfis.functions", fromlist=[function_type])
+            imported_function =  getattr(module, function_type)()
+        except ImportError:
+            raise ImportError(f"Error: Class {function_type} not found in the 'functions' folder.")
 
-            function_rules = None
-            for rule in self.active_rules:
-                main_function = None
-                for i, num in enumerate(rule):
-                    if num == 1:
-                        main_function = functions_list[i].unsqueeze(0) if main_function is None else torch.max(main_function, functions_list[i]).unsqueeze(0)
+        for name, value in function_params.items():
+           imported_function._parameters[name] = value
 
-                function_rules = main_function if function_rules is None else torch.cat((function_rules, main_function), dim=0)
-            
-            for b, batch in enumerate(f):
-                for i, row in enumerate(batch):
-                    Y = torch.min(function_rules, row.view(-1, 1))  
-                    outputs[b, i, j] = torch.sum(X * Y) / torch.sum(Y)
-        return outputs
+        return imported_function
+    
+    def forward(self, f, rules, X=None, Y=None): # X and Y are placeholders. Will NEVER be used as input args.
+
+        output = torch.zeros(f.size(1), f.size(0), 1)
+        f = torch.einsum("bij, jk -> ibjk", f, rules)  # (n_rows, n_batch, n_rules, n_funcs_in_universe)
+        X = torch.linspace(self.universe.min, self.universe.max, 200)
+        function_outputs = torch.stack([function(X) for function in self.universe.functions.values()])
+
+        # Vectorize the Y computation
+        f = f.transpose(0, 1).unsqueeze(-1)  # (n_batch, n_rows, n_rules, n_funcs_in_universe, 1)
+        Y = torch.min(function_outputs.unsqueeze(0).unsqueeze(0), f)  # n_batch, n_rows, n_rules, n_funcs_in_universe, X.size(0)
+
+        # Defuzzyfication
+        Y_max = torch.amax(Y, dim=(2, 3))
+        output = torch.sum(X * Y_max, dim=-1) / torch.sum(Y_max, dim=-1)
+        output = torch.where(torch.isnan(output), torch.tensor(0.0), output)
+
+        return output.unsqueeze(-1)
+
+        
+        
