@@ -9,7 +9,7 @@ from pyanfis.functions import Bell
 class TestBell(unittest.TestCase):
     """Bell function test cases"""
     def test_initialization_empty(self):
-        """Initialisation with empty variables"""
+        """Initialising empty variables"""
         function = Bell()
         self.assertTrue(torch.equal(function.center, torch.tensor([])))
         self.assertTrue(torch.equal(function.shape, torch.tensor([])))
