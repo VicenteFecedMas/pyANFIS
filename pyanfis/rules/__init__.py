@@ -1,4 +1,5 @@
 """Exported Rules layer"""
-from .rules import Rules
+from .rules_base import RulesBase
+from .rules_neuron import RulesNeuron
 
-__all__ = ["Rules"]
+__all__ = ["RulesBase", "RulesNeuron"]

@@ -1,15 +1,8 @@
-"""This class will hold everythin related to the rules of the system"""
-from typing import Any, Callable, Union, Optional
+"""This class will hold the methods to create, modify and store the rules of a system"""
+from typing import Any, Union, Optional
 import torch
 
-from .intersection_algorithms import larsen, mamdani
-
-INTERSECTIONS = {
-    "larsen": larsen,
-    "mamdani": mamdani,
-}
-
-class Rules(torch.nn.Module):
+class RulesBase(torch.nn.Module):
     """
     This class will contain all the rules of the system,
     it will dictate how each one of the antecedent functions
@@ -35,19 +28,14 @@ class Rules(torch.nn.Module):
     Examples
     --------
     """
-    __slots__ = ["intersection_type", "intersection", "active_antecedents_rules", "active_consequents_rules"]
+    __slots__ = ["active_antecedents_rules", "active_consequents_rules"]
     def __init__(
             self,
             rules_base: list[str],
             antecedents: dict[str, Any],
             consequents: dict[str, Any],
-            intersection_type: str = "larsen"
         ) -> None:
         super(). __init__() # type: ignore
-        self.intersection_type: str = intersection_type
-        self.intersection: Callable[[torch.Tensor, torch.Tensor], torch.Tensor] = (
-            INTERSECTIONS[self.intersection_type]
-        )
         self.active_antecedents_rules: Optional[torch.Tensor] = None
         self.active_consequents_rules: Optional[dict[str, Union[list[list[int]], list[int]]]] = None
         self.create_rules_base(rules_base, antecedents, consequents)
@@ -164,8 +152,3 @@ class Rules(torch.nn.Module):
         antecedent_rules, consequent_rules = self._check_common_antecedents(antecedent_rules, consequent_rules)
         self.active_antecedents_rules = torch.tensor(antecedent_rules)
         self.active_consequents_rules = self._correlate_inputs_with_outputs(consequents_correlations, consequent_rules, consequents)
-    def forward(self, x: torch.Tensor):
-        """Relation of fuzzy numbers using rules"""
-        related_nums: torch.Tensor = x[..., None] * self.active_antecedents_rules[None, None, ...] # type: ignore
-        x = self.intersection(related_nums, self.active_antecedents_rules) # type: ignore
-        return x[:, :, :, 0]

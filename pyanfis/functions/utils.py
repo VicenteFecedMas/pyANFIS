@@ -3,9 +3,11 @@ from typing import Optional, Union
 import torch
 
 def init_parameter(
-        number: Optional[Union[float, torch.Tensor]] = None
+        number: Optional[Union[int, float, torch.Tensor]] = None
     ) -> torch.Tensor: # Parameter is subclass of Tensor
     """Util to initialise a parameter"""
+    if number is not None and not isinstance(number, (int, float, torch.Tensor)): # type: ignore
+        raise TypeError(f"init_parameter can only recive an int, float or tensor. Recived {type(number)}")
     if number is None:
         return torch.nn.Parameter(torch.empty(0), requires_grad=False)
     if isinstance(number, torch.Tensor):

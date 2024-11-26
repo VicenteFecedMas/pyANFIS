@@ -33,16 +33,9 @@ class Bell(torch.nn.Module):
         self.center: torch.Tensor = init_parameter(center)
         self.shape: torch.Tensor = init_parameter(shape)
         self.width: torch.Tensor = init_parameter(width)
-    def __setitem__(self, key: str, value: torch.Tensor):
-        """Item setter dunder method"""
-        if key == "width":
-            self.width = value
-        elif key == "shape":
-            self.shape = value
-        elif key == "center":
-            self.center = value
-        else:
-            raise KeyError(f"Unknown parameter: {key}")
+    def __setattr__(self, name: str, value: Optional[Union[int, float, torch.Tensor]]): # type: ignore
+        """Item setter dunder method"""        
+        super().__setattr__(name, init_parameter(value))
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         """Returns input parsed through Bell function"""
         x = x - self.center
