@@ -29,14 +29,9 @@ class Gauss(torch.nn.Module):
         super().__init__() # type: ignore
         self.mean: torch.Tensor  = init_parameter(mean)
         self.std: torch.Tensor = init_parameter(std)
-    def __setitem__(self, key: str, value: torch.Tensor):
-        """Item setter dunder method"""
-        if key == "mean":
-            self.mean = value
-        elif key == "std":
-            self.std = value
-        else:
-            raise KeyError(f"Unknown parameter: {key}")
+    def __setattr__(self, name: str, value: Optional[Union[int, float, torch.Tensor]]): # type: ignore
+        """Item setter dunder method"""        
+        super().__setattr__(name, init_parameter(value))
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         """Returns input parsed through Gauss function"""
         x = x - self.mean
