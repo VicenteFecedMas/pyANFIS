@@ -1,8 +1,0 @@
-__pycache__/
-.pytest_cache/
-examples/
-.gitignore
-.gitattributes
-pyproject.toml
-dist
-build
