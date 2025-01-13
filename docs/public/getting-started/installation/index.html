@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr" itemscope itemtype="http://schema.org/Article" data-r-output-format="html">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="generator" content="Hugo 0.139.5">
+    <meta name="generator" content="Relearn 7.2.1+16d4de84becfa2d2e6bdb2394a2f4fa411bc0007">
+    <meta name="description" content="The following steps are here to help you initialize your new website. If you don’t know Hugo at all, we strongly suggest you learn more about it by following this great documentation for beginners.
+Create your project Hugo provides a new command to create a new website.
+hugo new site &lt;new_project&gt; Install the theme Install the Hugo-theme-learn theme by following this documentation
+This theme’s repository is: https://github.com/matcornic/hugo-theme-learn.git
+Alternatively, you can download the theme as .zip file and extract it in the themes directory">
+    <meta name="author" content="">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Installation :: My New Hugo Site">
+    <meta name="twitter:description" content="The following steps are here to help you initialize your new website. If you don’t know Hugo at all, we strongly suggest you learn more about it by following this great documentation for beginners.
+Create your project Hugo provides a new command to create a new website.
+hugo new site &lt;new_project&gt; Install the theme Install the Hugo-theme-learn theme by following this documentation
+This theme’s repository is: https://github.com/matcornic/hugo-theme-learn.git
+Alternatively, you can download the theme as .zip file and extract it in the themes directory">
+    <meta property="og:url" content="http://localhost:1313/getting-started/installation/index.html">
+    <meta property="og:site_name" content="My New Hugo Site">
+    <meta property="og:title" content="Installation :: My New Hugo Site">
+    <meta property="og:description" content="The following steps are here to help you initialize your new website. If you don’t know Hugo at all, we strongly suggest you learn more about it by following this great documentation for beginners.
+Create your project Hugo provides a new command to create a new website.
+hugo new site &lt;new_project&gt; Install the theme Install the Hugo-theme-learn theme by following this documentation
+This theme’s repository is: https://github.com/matcornic/hugo-theme-learn.git
+Alternatively, you can download the theme as .zip file and extract it in the themes directory">
+    <meta property="og:locale" content="en_us">
+    <meta property="og:type" content="article">
+    <meta property="article:section" content="Getting Started">
+    <meta itemprop="name" content="Installation :: My New Hugo Site">
+    <meta itemprop="description" content="The following steps are here to help you initialize your new website. If you don’t know Hugo at all, we strongly suggest you learn more about it by following this great documentation for beginners.
+Create your project Hugo provides a new command to create a new website.
+hugo new site &lt;new_project&gt; Install the theme Install the Hugo-theme-learn theme by following this documentation
+This theme’s repository is: https://github.com/matcornic/hugo-theme-learn.git
+Alternatively, you can download the theme as .zip file and extract it in the themes directory">
+    <meta itemprop="wordCount" content="469">
+    <title>Installation :: My New Hugo Site</title>
+    <link href="/css/fontawesome-all.min.css?1734466775" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1734466775" rel="stylesheet"></noscript>
+    <link href="/css/auto-complete.css?1734466775" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1734466775" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar.min.css?1734466775" rel="stylesheet">
+    <link href="/css/theme.css?1734466775" rel="stylesheet">
+    <link href="/css/format-html.css?1734466775" rel="stylesheet" id="R-format-style">
+    <script>
+      window.relearn = window.relearn || {};
+      window.relearn.relBasePath='..\/..';
+      window.relearn.relBaseUri='..\/..';
+      window.relearn.absBaseUri='http:\/\/localhost:1313';
+      window.relearn.min = ``;
+      window.relearn.disableAnchorCopy=false;
+      window.relearn.disableAnchorScrolling=false;
+      // variant stuff
+      window.relearn.themevariants = [ 'zen-dark', 'zen-light' ];
+      window.relearn.customvariantname = "my-custom-variant";
+      window.relearn.changeVariant = function(variant) {
+        var oldVariant = document.documentElement.dataset.rThemeVariant;
+        window.localStorage.setItem(window.relearn.absBaseUri + "/variant", variant);
+        document.documentElement.dataset.rThemeVariant = variant;
+        if (oldVariant != variant) {
+          document.dispatchEvent( new CustomEvent('themeVariantLoaded', { detail: { variant, oldVariant } }) );
+        }
+      }
+      window.relearn.markVariant = function() {
+        var variant = window.localStorage.getItem(window.relearn.absBaseUri + "/variant");
+        var select = document.querySelector("#R-select-variant");
+        if (select) {
+          select.value = variant;
+        }
+      }
+      window.relearn.initVariant = function() {
+        var variant = window.localStorage.getItem(window.relearn.absBaseUri + "/variant") ?? "";
+        if( variant == window.relearn.customvariantname ){
+        }else if( !variant || !window.relearn.themevariants.includes(variant) ){
+          variant = window.relearn.themevariants[0];
+          window.localStorage.setItem(window.relearn.absBaseUri + "/variant", variant);
+        }
+        document.documentElement.dataset.rThemeVariant = variant;
+      }
+      window.relearn.initVariant();
+      window.relearn.markVariant();
+      // translations
+      window.T_Copy_to_clipboard = `Copy to clipboard`;
+      window.T_Copied_to_clipboard = `Copied to clipboard!`;
+      window.T_Copy_link_to_clipboard = `Copy link to clipboard`;
+      window.T_Link_copied_to_clipboard = `Copied link to clipboard!`;
+      window.T_Reset_view = `Reset view`;
+      window.T_View_reset = `View reset!`;
+      window.T_No_results_found = `No results found for "{0}"`;
+      window.T_N_results_found = `{1} results found for "{0}"`;
+    </script>
+  </head>
+  <body class="mobile-support html" data-url="/getting-started/installation/index.html">
+    <div id="R-body" class="default-animation">
+      <div id="R-body-overlay"></div>
+      <nav id="R-topbar">
+        <div class="topbar-wrapper">
+          <div class="topbar-sidebar-divider"></div>
+          <div class="topbar-area topbar-area-start" data-area="start">
+            <div class="topbar-button topbar-button-sidebar" data-content-empty="disable" data-width-s="show" data-width-m="hide" data-width-l="hide"><button class="topbar-control" onclick="toggleNav()" type="button" title="Menu (CTRL&#43;ALT&#43;n)"><i class="fa-fw fas fa-bars"></i></button>
+            </div>
+            <div class="topbar-button topbar-button-toc" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="Table of Contents (CTRL&#43;ALT&#43;t)"><i class="fa-fw fas fa-list-alt"></i></button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+<nav class="TableOfContents">
+  <ul>
+    <li><a href="#create-your-project">Create your project</a></li>
+    <li><a href="#install-the-theme">Install the theme</a></li>
+    <li><a href="#basic-configuration">Basic configuration</a></li>
+    <li><a href="#create-your-first-chapter-page">Create your first chapter page</a></li>
+    <li><a href="#create-your-first-content-pages">Create your first content pages</a></li>
+    <li><a href="#launching-the-website-locally">Launching the website locally</a></li>
+    <li><a href="#build-the-website">Build the website</a></li>
+  </ul>
+</nav>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="/index.html"><span itemprop="name">Home Page</span></a><meta itemprop="position" content="1">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="/getting-started/index.html"><span itemprop="name">Getting Started</span></a><meta itemprop="position" content="2">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><span itemprop="name">Installation</span><meta itemprop="position" content="3"></li>
+          </ol>
+          <div class="topbar-area topbar-area-end" data-area="end">
+            <div class="topbar-button topbar-button-prev" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/getting-started/index.html" title="Getting Started (🡐)"><i class="fa-fw fas fa-chevron-left"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-next" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/functions/index.html" title="Functions (🡒)"><i class="fa-fw fas fa-chevron-right"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-more" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="More"><i class="fa-fw fas fa-ellipsis-v"></i></button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+                  <div class="topbar-area topbar-area-more" data-area="more">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <div id="R-main-overlay"></div>
+      <main id="R-body-inner" class="highlightable getting-started" tabindex="-1">
+        <div class="flex-block-wrapper">
+<article class="default">
+  <header class="headline">
+  </header>
+
+<h1 id="installation">Installation</h1>
+
+<p>The following steps are here to help you initialize your new website. If you don&rsquo;t know Hugo at all, we strongly suggest you learn more about it by following this <a href="https://gohugo.io/overview/quickstart/" rel="external" target="_blank">great documentation for beginners</a>.</p>
+<h2 id="create-your-project">Create your project</h2>
+<p>Hugo provides a <code>new</code> command to create a new website.</p>
+<div class="highlight wrap-code"><pre tabindex="0"><code>hugo new site &lt;new_project&gt;</code></pre></div>
+<h2 id="install-the-theme">Install the theme</h2>
+<p>Install the <strong>Hugo-theme-learn</strong> theme by following <a href="https://gohugo.io/themes/installing/" rel="external" target="_blank">this documentation</a></p>
+<p>This theme&rsquo;s repository is: <a href="https://github.com/matcornic/hugo-theme-learn.git" rel="external" target="_blank">https://github.com/matcornic/hugo-theme-learn.git</a></p>
+<p>Alternatively, you can <a href="https://github.com/matcornic/hugo-theme-learn/archive/master.zip" rel="external" target="_blank">download the theme as .zip</a> file and extract it in the <code>themes</code> directory</p>
+<h2 id="basic-configuration">Basic configuration</h2>
+<p>When building the website, you can set a theme by using <code>--theme</code> option. However, we suggest you modify the configuration file (<code>config.toml</code>) and set the theme as the default. You can also add the <code>[outputs]</code> section to enable the search functionality.</p>
+<div class="highlight wrap-code"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span><span style="color:#75715e"># Change the default theme to be use when building the site with Hugo</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">theme</span> = <span style="color:#e6db74">&#34;hugo-theme-learn&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># For search functionality</span>
+</span></span><span style="display:flex;"><span>[<span style="color:#a6e22e">outputs</span>]
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">home</span> = [ <span style="color:#e6db74">&#34;HTML&#34;</span>, <span style="color:#e6db74">&#34;RSS&#34;</span>, <span style="color:#e6db74">&#34;JSON&#34;</span>]</span></span></code></pre></div>
+<h2 id="create-your-first-chapter-page">Create your first chapter page</h2>
+<p>Chapters are pages that contain other child pages. It has a special layout style and usually just contains a <em>chapter name</em>, the <em>title</em> and a <em>brief abstract</em> of the section.</p>
+<div class="highlight wrap-code"><pre tabindex="0"><code>### Chapter 1
+
+# Basics
+
+Discover what this Hugo theme is all about and the core concepts behind it.</code></pre></div>
+<p>renders as</p>
+<p><a href="#R-image-d8049ce5747f0888e1f1e7a0d687a027" class="lightbox-link"><img alt="A Chapter" class="noborder lazy lightbox shadow figure-image" loading="lazy" src="/en/basics/installation/images/chapter.png?classes=shadow&width=60pc" style=" height: auto; width: 60pc;"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-d8049ce5747f0888e1f1e7a0d687a027"><img alt="A Chapter" class="noborder lazy lightbox shadow lightbox-image" loading="lazy" src="/en/basics/installation/images/chapter.png?classes=shadow&width=60pc"></a></p>
+<p><strong>Hugo-theme-learn</strong> provides archetypes to create skeletons for your website. Begin by creating your first chapter page with the following command</p>
+<div class="highlight wrap-code"><pre tabindex="0"><code>hugo new --kind chapter basics/_index.md</code></pre></div>
+<p>By opening the given file, you should see the property <code>chapter=true</code> on top, meaning this page is a <em>chapter</em>.</p>
+<p>By default all chapters and pages are created as a draft. If you want to render these pages, remove the property <code>draft: true</code> from the metadata.</p>
+<h2 id="create-your-first-content-pages">Create your first content pages</h2>
+<p>Then, create content pages inside the previously created chapter. Here are two ways to create content in the chapter:</p>
+<div class="highlight wrap-code"><pre tabindex="0"><code>hugo new basics/first-content.md
+hugo new basics/second-content/_index.md</code></pre></div>
+<p>Feel free to edit thoses files by adding some sample content and replacing the <code>title</code> value in the beginning of the files.</p>
+<h2 id="launching-the-website-locally">Launching the website locally</h2>
+<p>Launch by using the following command:</p>
+<div class="highlight wrap-code"><pre tabindex="0"><code>hugo serve</code></pre></div>
+<p>Go to <code>http://localhost:1313</code></p>
+<p>You should notice three things:</p>
+<ol>
+<li>You have a left-side <strong>Basics</strong> menu, containing two submenus with names equal to the <code>title</code> properties in the previously created files.</li>
+<li>The home page explains how to customize it by following the instructions.</li>
+<li>When you run <code>hugo serve</code>, when the contents of the files change, the page automatically refreshes with the changes. Neat!</li>
+</ol>
+<h2 id="build-the-website">Build the website</h2>
+<p>When your site is ready to deploy, run the following command:</p>
+<div class="highlight wrap-code"><pre tabindex="0"><code>hugo</code></pre></div>
+<p>A <code>public</code> folder will be generated, containing all static content and assets for your website. It can now be deployed on any web server.</p>
+
+<details open class=" box cstyle notices note">
+  <summary class="box-label">
+    <i class="fa-fw fas fa-exclamation-circle"></i> 
+    Note
+  </summary>
+  <div class="box-content">
+<p>This website can be automatically published and hosted with <a href="https://www.netlify.com/" rel="external" target="_blank">Netlify</a> (Read more about <a href="https://www.netlify.com/blog/2015/07/30/hosting-hugo-on-netlifyinsanely-fast-deploys/" rel="external" target="_blank">Automated HUGO deployments with Netlify</a>). Alternatively, you can use <a href="https://gohugo.io/hosting-and-deployment/hosting-on-github/" rel="external" target="_blank">Github pages</a></p>
+  </div>
+</details>
+
+  <footer class="footline">
+  </footer>
+</article>
+        </div>
+      </main>
+    </div>
+    <aside id="R-sidebar" class="default-animation">
+      <div id="R-header-topbar" class="default-animation"></div>
+      <div id="R-header-wrapper" class="default-animation">
+        <div id="R-header" class="default-animation">
+          <a id="R-logo" class="R-default" href="/index.html">
+pyanfis
+          </a>
+        </div>
+        <script>
+          window.index_js_url="/searchindex.en.js?1734466775";
+        </script>
+        <search><form action="/search/index.html" method="get">
+          <div class="searchbox default-animation">
+            <button class="search-detail" type="submit" title="Search (CTRL+ALT+f)"><i class="fas fa-search"></i></button>
+            <label class="a11y-only" for="R-search-by">Search</label>
+            <input data-search-input id="R-search-by" name="search-by" class="search-by" type="search" placeholder="Search...">
+            <button class="search-clear" type="button" data-search-clear="" title="Clear search"><i class="fas fa-times" title="Clear search"></i></button>
+          </div>
+        </form></search>
+        <script>
+          var contentLangs=['en'];
+        </script>
+        <script src="/js/auto-complete.js?1734466775" defer></script>
+        <script src="/js/lunr/lunr.min.js?1734466775" defer></script>
+        <script src="/js/lunr/lunr.stemmer.support.min.js?1734466775" defer></script>
+        <script src="/js/lunr/lunr.multi.min.js?1734466775" defer></script>
+        <script src="/js/lunr/lunr.en.min.js?1734466775" defer></script>
+        <script src="/js/search.js?1734466775" defer></script>
+      </div>
+      <div id="R-homelinks" class="default-animation homelinks">
+        <ul>
+          <li><a class="padding" href="/index.html"><i class="fa-fw fas fa-home"></i> Home</a></li>
+        </ul>
+        <hr class="padding">
+      </div>
+      <div id="R-content-wrapper" class="highlightable">
+        <div id="R-shortcutmenu-home" class="R-sidebarmenu">
+          <ul class="enlarge morespace collapsible-menu">
+            <li class="" data-nav-id="/algorithms/index.html"><a class="padding" href="/algorithms/index.html">Algorithms</a></li>
+            <li class="" data-nav-id="/antecedents/index.html"><a class="padding" href="/antecedents/index.html">Antecedents</a></li>
+            <li class="" data-nav-id="/consequents/index.html"><a class="padding" href="/consequents/index.html">Consequents</a></li>
+            <li class="" data-nav-id="/rules/index.html"><a class="padding" href="/rules/index.html">Rules</a></li>
+            <li class="parent " data-nav-id="/getting-started/index.html"><input type="checkbox" id="R-section-87c0363912f379e0725cbe1d504c985c" aria-controls="R-subsections-87c0363912f379e0725cbe1d504c985c" checked><label for="R-section-87c0363912f379e0725cbe1d504c985c"><i class="fa-fw fas fa-chevron-right"></i><span class="a11y-only">Submenu Getting Started</span></label><a class="padding" href="/getting-started/index.html"><b>1. </b>Getting Started</a><ul id="R-subsections-87c0363912f379e0725cbe1d504c985c" class="collapsible-menu">
+            <li class="active " data-nav-id="/getting-started/installation/index.html"><a class="padding" href="/getting-started/installation/index.html">Installation</a></li></ul></li>
+            <li class="" data-nav-id="/functions/index.html"><input type="checkbox" id="R-section-501822a3ea1c7f0b946df0bd1ab5ce14" aria-controls="R-subsections-501822a3ea1c7f0b946df0bd1ab5ce14"><label for="R-section-501822a3ea1c7f0b946df0bd1ab5ce14"><i class="fa-fw fas fa-chevron-right"></i><span class="a11y-only">Submenu Functions</span></label><a class="padding" href="/functions/index.html">Functions</a><ul id="R-subsections-501822a3ea1c7f0b946df0bd1ab5ce14" class="collapsible-menu">
+            <li class="" data-nav-id="/functions/bell/index.html"><a class="padding" href="/functions/bell/index.html">Bell</a></li>
+            <li class="" data-nav-id="/functions/gauss/index.html"><a class="padding" href="/functions/gauss/index.html">Gauss</a></li>
+            <li class="" data-nav-id="/functions/linear_s/index.html"><a class="padding" href="/functions/linear_s/index.html">Linear S</a></li>
+            <li class="" data-nav-id="/functions/linear_z/index.html"><a class="padding" href="/functions/linear_z/index.html">Linear Z</a></li>
+            <li class="" data-nav-id="/functions/sigmoid/index.html"><a class="padding" href="/functions/sigmoid/index.html">Sigmoid</a></li>
+            <li class="" data-nav-id="/functions/triangular/index.html"><a class="padding" href="/functions/triangular/index.html">Triangular</a></li></ul></li>
+          </ul>
+        </div>
+    
+        <div class="padding footermargin footerLangSwitch footerVariantSwitch footerVisitedLinks footerFooter showVariantSwitch showFooter"></div>
+        <div id="R-menu-footer">
+          <hr class="padding default-animation footerLangSwitch footerVariantSwitch footerVisitedLinks footerFooter showVariantSwitch showFooter">
+          <div id="R-prefooter" class="footerLangSwitch footerVariantSwitch footerVisitedLinks showVariantSwitch">
+            <ul>
+              <li id="R-select-language-container" class="footerLangSwitch">
+                <div class="padding menu-control">
+                  <i class="fa-fw fas fa-language"></i>
+                  <span>&nbsp;</span>
+                  <div class="control-style">
+                    <label class="a11y-only" for="R-select-language">Language</label>
+                    <select id="R-select-language" onchange="location = this.querySelector( this.value ).dataset.url;">
+                      <option id="R-select-language-en" value="#R-select-language-en" data-url="/getting-started/installation/index.html" lang="en-us" selected></option>
+                    </select>
+                  </div>
+                  <div class="clear"></div>
+                </div>
+              </li>
+              <li id="R-select-variant-container" class="footerVariantSwitch showVariantSwitch">
+                <div class="padding menu-control">
+                  <i class="fa-fw fas fa-paint-brush"></i>
+                  <span>&nbsp;</span>
+                  <div class="control-style">
+                    <label class="a11y-only" for="R-select-variant">Theme</label>
+                    <select id="R-select-variant" onchange="window.relearn.changeVariant( this.value );">
+                      <option id="R-select-variant-zen-dark" value="zen-dark" selected>Zen Dark</option>
+                      <option id="R-select-variant-zen-light" value="zen-light">Zen Light</option>
+                    </select>
+                  </div>
+                  <div class="clear"></div>
+                </div>
+                <script>window.relearn.markVariant();</script>
+              </li>
+              <li class="footerVisitedLinks">
+                <div class="padding menu-control">
+                  <i class="fa-fw fas fa-history"></i>
+                  <span>&nbsp;</span>
+                  <div class="control-style">
+                    <button onclick="clearHistory();">Clear History</button>
+                  </div>
+                  <div class="clear"></div>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div id="R-footer" class="footerFooter showFooter">
+        <p>Built with <a href="https://github.com/McShelby/hugo-theme-relearn" title="love"><i class="fas fa-heart"></i></a> by <a href="https://gohugo.io/">Hugo</a></p>
+          </div>
+        </div>
+      </div>
+    </aside>
+    <script src="/js/clipboard.min.js?1734466775" defer></script>
+    <script src="/js/perfect-scrollbar.min.js?1734466775" defer></script>
+    <script src="/js/theme.js?1734466775" defer></script>
+  </body>
+</html>

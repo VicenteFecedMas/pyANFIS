@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Functions :: My New Hugo Site</title>
+    <link>http://localhost:1313/functions/index.html</link>
+    <description>Classical logic only permits conclusions that are either true or false. However, there are also propositions with variable answers, which one might find when asking a group of people to identify a color. In such instances, the truth appears as the result of reasoning from inexact or partial knowledge in which the sampled answers are mapped on a spectrum.&#xA;Both degrees of truth and probabilities range between 0 and 1 and hence may seem identical at first, but fuzzy logic uses degrees of truth as a mathematical model of vagueness, while probability is a mathematical model of ignorance. In this context, functions are used to transform a CRISP number into a degree of truth.</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <atom:link href="http://localhost:1313/functions/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Bell</title>
+      <link>http://localhost:1313/functions/bell/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/functions/bell/index.html</guid>
+      <description>CLASS pyanfis.functions.Bell(width, shape, center) Parameters name type description width int, float width of the bell function shape int, float shape of the transition area of the bell function center int, float center of the bell function Example The first step is to import torch and the function using:&#xA;import torch from pyanfis.functions import Bell After importing the function, we will initialise it with a width value of 1, a shape value of 0.5 and a center value of 1.5:</description>
+    </item>
+    <item>
+      <title>Gauss</title>
+      <link>http://localhost:1313/functions/gauss/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/functions/gauss/index.html</guid>
+      <description>CLASS pyanfis.functions.Gauss(mean, std) Parameters name type description mean int, float mean of the gaussian function std int, float standard deviation of the gaussian function Example The first step is to import torch and the function using:&#xA;import torch from pyanfis.functions import Gauss After importing the function, we will initialise it with a mean value of 1.5 and a standard deviation value of 0.5:&#xA;gauss = Gauss(mean = 1.5, std = 0.5) x = torch.linspace(0, 3, 9) f_x = gauss(x) The input tensor x will be:</description>
+    </item>
+    <item>
+      <title>Linear S</title>
+      <link>http://localhost:1313/functions/linear_s/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/functions/linear_s/index.html</guid>
+      <description>CLASS pyanfis.functions.LinearS(foot, shoulder) Parameters name type description shoulder int, float position of the shoulder of the function foot int, float position of the foot of the function Example The first step is to import torch and the function using:&#xA;import torch from pyanfis.functions import LinearS After importing the function, we will initialise it with a foot value of 1 and a shoulder value of 2:&#xA;linear_s = LinearS(foot = 1, shoulder = 2) x = torch.linspace(0, 3, 9) f_x = linear_s(x) The input tensor x will be:</description>
+    </item>
+    <item>
+      <title>Linear Z</title>
+      <link>http://localhost:1313/functions/linear_z/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/functions/linear_z/index.html</guid>
+      <description>CLASS pyanfis.functions.LinearZ(shoulder, foot) Parameters name type description shoulder int, float position of the shoulder of the function foot int, float position of the foot of the function Example The first step is to import torch and the function using:&#xA;import torch from pyanfis.functions import LinearZ After importing the function, we will initialise it with a shoulder value of 1 and a foot value of 2:&#xA;linear_z = LinearZ(shoulder = 1, foot = 2) x = torch.linspace(0, 3, 9) f_x = linear_z(x) The input tensor x will be:</description>
+    </item>
+    <item>
+      <title>Sigmoid</title>
+      <link>http://localhost:1313/functions/sigmoid/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/functions/sigmoid/index.html</guid>
+      <description>CLASS pyanfis.functions.Sigmoid(width, center) Parameters name type description width int, float width of the transition area of the sigmoid function center int, float center of the sigmoid function Example The first step is to import torch and the function using:&#xA;import torch from pyanfis.functions import Sigmoid After importing the function, we will initialise it with a width value of 1 and a center value of 1:&#xA;sigmoid = Sigmoid(width = 1, center = 1.5) x = torch.linspace(0, 3, 9) f_x = sigmoid(x) The input tensor x will be:</description>
+    </item>
+    <item>
+      <title>Triangular</title>
+      <link>http://localhost:1313/functions/triangular/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/functions/triangular/index.html</guid>
+      <description>CLASS pyanfis.functions.Triangular(left_foot, peak, right_foot) Parameters name type description left_foot int, float right place where the base of the triangular function will be located peak int, float place where the peak of the triangular function will be located right_foot int, float left place where the base of the triangular function will be located Example The first step is to import torch and the function using:&#xA;import torch from pyanfis.functions import Triangular After importing the function, we will initialise it with a left foot value of 1, a peak value of 2 and a right foot value of 3:</description>
+    </item>
+  </channel>
+</rss>

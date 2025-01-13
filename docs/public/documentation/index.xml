@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Documentation :: My New Hugo Site</title>
+    <link>http://localhost:1313/documentation/index.html</link>
+    <description>System modelling based on conventional mathematical tools (e.g., differential equations) is not well suited for dealing with ill-defined and uncertain systems. By contrast, a fuzzy inference system employing fuzzy if-then rules can model the qualitative aspects of human knowledge and reason- ing processes without employing precise quantitative analyses. This fuzzy modeling or fuzzy identification, first explored systematically by Takagi and Sugeno, has found numerous practical applications in control prediction and inference. However, there are some basic aspects of this approach which are in need of better understanding. More specifically:</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 20 Sep 2019 04:20:36 +0430</lastBuildDate>
+    <atom:link href="http://localhost:1313/documentation/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Antecedents</title>
+      <link>http://localhost:1313/documentation/antecedents/index.html</link>
+      <pubDate>Fri, 20 Sep 2019 04:20:36 +0430</pubDate>
+      <guid>http://localhost:1313/documentation/antecedents/index.html</guid>
+      <description>CLASS pyanfis.antecedents.Antecedents(universes) Parameters The antecedents will receive a dictionary that inside will have a set of universes,&#xA;name(dict) - dictionary with “Input 1”, “Input 2”, … as keys and universes as values. This class is used to define the range in which a variable is going to be defined in a fuzzy way, it is composed of several functions used to describe it.&#xA;Example import torch from pyanfis.antecedents import Antecedents params = { &#34;Input 1&#34;:{ &#34;name&#34;: &#34;Dummy_Universe_1&#34;, &#34;range&#34;: (0, 3), &#34;functions&#34;: { &#34;Small&#34;: { &#34;type&#34;: &#34;LinearZ&#34;, &#34;parameters&#34;: { &#34;shoulder&#34;: 0, &#34;foot&#34;: 2 } }, &#34;Medium&#34;: { &#34;type&#34;: &#34;Gauss&#34;, &#34;parameters&#34;: { &#34;mean&#34;: 1.5, &#34;std&#34;: 1 } }, &#34;Big&#34;: { &#34;type&#34;: &#34;LinearS&#34;, &#34;parameters&#34;: { &#34;foot&#34;: 1, &#34;shoulder&#34;: 3 } } } }, &#34;Input 2&#34;:{ &#34;name&#34;: &#34;Dummy_Universe_2&#34;, &#34;range&#34;: (0, 6), &#34;functions&#34;: { &#34;Small&#34;: { &#34;type&#34;: &#34;LinearZ&#34;, &#34;parameters&#34;: { &#34;shoulder&#34;: 0, &#34;foot&#34;: 4 } }, &#34;Medium&#34;: { &#34;type&#34;: &#34;Gauss&#34;, &#34;parameters&#34;: { &#34;mean&#34;: 3, &#34;std&#34;: 2 } }, &#34;Big&#34;: { &#34;type&#34;: &#34;LinearS&#34;, &#34;parameters&#34;: { &#34;foot&#34;: 2, &#34;shoulder&#34;: 5 } } } } } antecedents = Antecedents(params) x_1 = torch.linspace(0, 3, 9).unsqueeze(0).unsqueeze(-1) x_2 = torch.linspace(0, 6, 9).unsqueeze(0).unsqueeze(-1) x = torch.cat((x_1, x_2), dim=2) f_x = antecedents(x) tensor([[[0.0000, 0.0000], [0.3750, 0.7500], [0.7500, 1.5000], [1.1250, 2.2500], [1.5000, 3.0000], [1.8750, 3.7500], [2.2500, 4.5000], [2.6250, 5.2500], [3.0000, 6.0000]]]) tensor([[[1.0000, 0.3247, 0.0000, 1.0000, 0.3247, 0.0000], [0.8125, 0.5311, 0.0000, 0.8125, 0.5311, 0.0000], [0.6250, 0.7548, 0.0000, 0.6250, 0.7548, 0.0000], [0.4375, 0.9321, 0.0625, 0.4375, 0.9321, 0.0833], [0.2500, 1.0000, 0.2500, 0.2500, 1.0000, 0.3333], [0.0625, 0.9321, 0.4375, 0.0625, 0.9321, 0.5833], [0.0000, 0.7548, 0.6250, 0.0000, 0.7548, 0.8333], [0.0000, 0.5311, 0.8125, 0.0000, 0.5311, 1.0000], [0.0000, 0.3247, 1.0000, 0.0000, 0.3247, 1.0000]]], grad_fn=&lt;IndexPutBackward0&gt;) Visualization import matplotlib.pyplot as plt fig, axs = plt.subplots(nrows=1, ncols=len(antecedents.universes), figsize=(15, 5)) axs = axs.flatten() for ax, (universe, i) in zip(axs, zip(antecedents.universes.values(), x.T)): ax.set_title(universe.name) ax.set_xlabel(&#34;x&#34;) ax.set_ylabel(&#34;f (x)&#34;) ax.margins(y=0.05) i = i.unsqueeze(0) ax.plot(i[0, :, :].detach(), universe(i)[0, :, :].detach()) plt.tight_layout() plt.show()</description>
+    </item>
+    <item>
+      <title>Consequents</title>
+      <link>http://localhost:1313/documentation/consequents/index.html</link>
+      <pubDate>Fri, 20 Sep 2019 04:20:36 +0430</pubDate>
+      <guid>http://localhost:1313/documentation/consequents/index.html</guid>
+      <description>This is a new chapter.</description>
+    </item>
+    <item>
+      <title>Examples</title>
+      <link>http://localhost:1313/documentation/examples/index.html</link>
+      <pubDate>Fri, 20 Sep 2019 04:20:36 +0430</pubDate>
+      <guid>http://localhost:1313/documentation/examples/index.html</guid>
+      <description>This is a new chapter.</description>
+    </item>
+    <item>
+      <title>Input parameters</title>
+      <link>http://localhost:1313/documentation/input_parameters/index.html</link>
+      <pubDate>Fri, 20 Sep 2019 04:20:36 +0430</pubDate>
+      <guid>http://localhost:1313/documentation/input_parameters/index.html</guid>
+      <description>The model will need a certain kind of parameters to be able to run properly. The system will accept three main parameters: antecedents, rules and consequents. The system will accept accept a big quantity of parameters, so it is advised to store the parameters on a different json. In the following subsections it will be exposed the structure of each main parameter group.&#xA;Antecedents The antecedents json will contain all the information related to the universes present in the antecedents. Each main key in this dictionary will be used to indicate which input is being used (Input 1, 2, 3, ….). Each value related to a key will contain a dictionary with:</description>
+    </item>
+    <item>
+      <title>Algorithms</title>
+      <link>http://localhost:1313/documentation/algorithms/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/documentation/algorithms/index.html</guid>
+      <description>This is a new chapter.</description>
+    </item>
+    <item>
+      <title>Rules</title>
+      <link>http://localhost:1313/documentation/rules/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/documentation/rules/index.html</guid>
+      <description>This is a new chapter.</description>
+    </item>
+    <item>
+      <title>Functions</title>
+      <link>http://localhost:1313/documentation/functions/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/documentation/functions/index.html</guid>
+      <description>Classical logic only permits conclusions that are either true or false. However, there are also propositions with variable answers, which one might find when asking a group of people to identify a color. In such instances, the truth appears as the result of reasoning from inexact or partial knowledge in which the sampled answers are mapped on a spectrum.&#xA;Both degrees of truth and probabilities range between 0 and 1 and hence may seem identical at first, but fuzzy logic uses degrees of truth as a mathematical model of vagueness, while probability is a mathematical model of ignorance. In this context, functions are used to transform a CRISP number into a degree of truth.</description>
+    </item>
+    <item>
+      <title>Universe</title>
+      <link>http://localhost:1313/documentation/universe/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/documentation/universe/index.html</guid>
+      <description>CLASS pyanfis.functions.Universe(name, range, functions) Parameters name type description name str name of the universe range tuple range of the universe, from min to max where min &lt; max functions dict dict with names of functions and properties of functions In regards to the functions parameter, you should input a dictionary where each key is the name of the function and each value is a dict that indicates its type and and its parameters:</description>
+    </item>
+  </channel>
+</rss>

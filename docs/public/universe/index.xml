@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Universe :: My New Hugo Site</title>
+    <link>http://localhost:1313/universe/index.html</link>
+    <description>CLASS pyanfis.functions.Universe(name, range, functions) Parameters name type description name str name of the universe range tuple range of the universe, from min to max where min &lt; max functions dict dict with names of functions and properties of functions In regards to the functions parameter, you should input a dictionary where each key is the name of the function and each value is a dict that indicates its type and and its parameters:</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <atom:link href="http://localhost:1313/universe/index.xml" rel="self" type="application/rss+xml" />
+  </channel>
+</rss>

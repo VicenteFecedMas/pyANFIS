@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Input parameters :: My New Hugo Site</title>
+    <link>http://localhost:1313/documentation/input_parameters/index.html</link>
+    <description>The model will need a certain kind of parameters to be able to run properly. The system will accept three main parameters: antecedents, rules and consequents. The system will accept accept a big quantity of parameters, so it is advised to store the parameters on a different json. In the following subsections it will be exposed the structure of each main parameter group.&#xA;Antecedents The antecedents json will contain all the information related to the universes present in the antecedents. Each main key in this dictionary will be used to indicate which input is being used (Input 1, 2, 3, ….). Each value related to a key will contain a dictionary with:</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate></lastBuildDate>
+    <atom:link href="http://localhost:1313/documentation/input_parameters/index.xml" rel="self" type="application/rss+xml" />
+  </channel>
+</rss>

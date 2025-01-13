@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Getting Started :: My New Hugo Site</title>
+    <link>http://localhost:1313/getting-started/index.html</link>
+    <description>Chapter 1 Getting Started Build a documentation website for your service using Hugo and hugo-theme-learn in less than an hour.</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/getting-started/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Installation</title>
+      <link>http://localhost:1313/getting-started/installation/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/getting-started/installation/index.html</guid>
+      <description>The following steps are here to help you initialize your new website. If you don’t know Hugo at all, we strongly suggest you learn more about it by following this great documentation for beginners.&#xA;Create your project Hugo provides a new command to create a new website.&#xA;hugo new site &lt;new_project&gt; Install the theme Install the Hugo-theme-learn theme by following this documentation&#xA;This theme’s repository is: https://github.com/matcornic/hugo-theme-learn.git&#xA;Alternatively, you can download the theme as .zip file and extract it in the themes directory</description>
+    </item>
+  </channel>
+</rss>

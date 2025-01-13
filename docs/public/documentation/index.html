@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr" itemscope itemtype="http://schema.org/Article" data-r-output-format="html">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="generator" content="Hugo 0.139.5">
+    <meta name="generator" content="Relearn 7.2.1+16d4de84becfa2d2e6bdb2394a2f4fa411bc0007">
+    <meta name="description" content="System modelling based on conventional mathematical tools (e.g., differential equations) is not well suited for dealing with ill-defined and uncertain systems. By contrast, a fuzzy inference system employing fuzzy if-then rules can model the qualitative aspects of human knowledge and reason- ing processes without employing precise quantitative analyses. This fuzzy modeling or fuzzy identification, first explored systematically by Takagi and Sugeno, has found numerous practical applications in control prediction and inference. However, there are some basic aspects of this approach which are in need of better understanding. More specifically:">
+    <meta name="author" content="">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Documentation :: My New Hugo Site">
+    <meta name="twitter:description" content="System modelling based on conventional mathematical tools (e.g., differential equations) is not well suited for dealing with ill-defined and uncertain systems. By contrast, a fuzzy inference system employing fuzzy if-then rules can model the qualitative aspects of human knowledge and reason- ing processes without employing precise quantitative analyses. This fuzzy modeling or fuzzy identification, first explored systematically by Takagi and Sugeno, has found numerous practical applications in control prediction and inference. However, there are some basic aspects of this approach which are in need of better understanding. More specifically:">
+    <meta property="og:url" content="http://localhost:1313/documentation/index.html">
+    <meta property="og:site_name" content="My New Hugo Site">
+    <meta property="og:title" content="Documentation :: My New Hugo Site">
+    <meta property="og:description" content="System modelling based on conventional mathematical tools (e.g., differential equations) is not well suited for dealing with ill-defined and uncertain systems. By contrast, a fuzzy inference system employing fuzzy if-then rules can model the qualitative aspects of human knowledge and reason- ing processes without employing precise quantitative analyses. This fuzzy modeling or fuzzy identification, first explored systematically by Takagi and Sugeno, has found numerous practical applications in control prediction and inference. However, there are some basic aspects of this approach which are in need of better understanding. More specifically:">
+    <meta property="og:locale" content="en_us">
+    <meta property="og:type" content="website">
+    <meta itemprop="name" content="Documentation :: My New Hugo Site">
+    <meta itemprop="description" content="System modelling based on conventional mathematical tools (e.g., differential equations) is not well suited for dealing with ill-defined and uncertain systems. By contrast, a fuzzy inference system employing fuzzy if-then rules can model the qualitative aspects of human knowledge and reason- ing processes without employing precise quantitative analyses. This fuzzy modeling or fuzzy identification, first explored systematically by Takagi and Sugeno, has found numerous practical applications in control prediction and inference. However, there are some basic aspects of this approach which are in need of better understanding. More specifically:">
+    <meta itemprop="datePublished" content="2019-09-20T04:20:36+04:30">
+    <meta itemprop="dateModified" content="2019-09-20T04:20:36+04:30">
+    <meta itemprop="wordCount" content="445">
+    <title>Documentation :: My New Hugo Site</title>
+    <link href="/documentation/index.xml" rel="alternate" type="application/rss+xml" title="Documentation :: My New Hugo Site">
+    <link href="/css/fontawesome-all.min.css?1736772647" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1736772647" rel="stylesheet"></noscript>
+    <link href="/css/auto-complete.css?1736772647" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1736772647" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar.min.css?1736772647" rel="stylesheet">
+    <link href="/css/theme.css?1736772647" rel="stylesheet">
+    <link href="/css/format-html.css?1736772647" rel="stylesheet" id="R-format-style">
+    <script>
+      window.relearn = window.relearn || {};
+      window.relearn.relBasePath='..';
+      window.relearn.relBaseUri='..';
+      window.relearn.absBaseUri='http:\/\/localhost:1313';
+      window.relearn.min = ``;
+      window.relearn.disableAnchorCopy=false;
+      window.relearn.disableAnchorScrolling=false;
+      // variant stuff
+      window.relearn.themevariants = [ 'zen-dark', 'zen-light' ];
+      window.relearn.customvariantname = "my-custom-variant";
+      window.relearn.changeVariant = function(variant) {
+        var oldVariant = document.documentElement.dataset.rThemeVariant;
+        window.localStorage.setItem(window.relearn.absBaseUri + "/variant", variant);
+        document.documentElement.dataset.rThemeVariant = variant;
+        if (oldVariant != variant) {
+          document.dispatchEvent( new CustomEvent('themeVariantLoaded', { detail: { variant, oldVariant } }) );
+        }
+      }
+      window.relearn.markVariant = function() {
+        var variant = window.localStorage.getItem(window.relearn.absBaseUri + "/variant");
+        var select = document.querySelector("#R-select-variant");
+        if (select) {
+          select.value = variant;
+        }
+      }
+      window.relearn.initVariant = function() {
+        var variant = window.localStorage.getItem(window.relearn.absBaseUri + "/variant") ?? "";
+        if( variant == window.relearn.customvariantname ){
+        }else if( !variant || !window.relearn.themevariants.includes(variant) ){
+          variant = window.relearn.themevariants[0];
+          window.localStorage.setItem(window.relearn.absBaseUri + "/variant", variant);
+        }
+        document.documentElement.dataset.rThemeVariant = variant;
+      }
+      window.relearn.initVariant();
+      window.relearn.markVariant();
+      // translations
+      window.T_Copy_to_clipboard = `Copy to clipboard`;
+      window.T_Copied_to_clipboard = `Copied to clipboard!`;
+      window.T_Copy_link_to_clipboard = `Copy link to clipboard`;
+      window.T_Link_copied_to_clipboard = `Copied link to clipboard!`;
+      window.T_Reset_view = `Reset view`;
+      window.T_View_reset = `View reset!`;
+      window.T_No_results_found = `No results found for "{0}"`;
+      window.T_N_results_found = `{1} results found for "{0}"`;
+    </script>
+  </head>
+  <body class="mobile-support html" data-url="/documentation/index.html">
+    <div id="R-body" class="default-animation">
+      <div id="R-body-overlay"></div>
+      <nav id="R-topbar">
+        <div class="topbar-wrapper">
+          <div class="topbar-sidebar-divider"></div>
+          <div class="topbar-area topbar-area-start" data-area="start">
+            <div class="topbar-button topbar-button-sidebar" data-content-empty="disable" data-width-s="show" data-width-m="hide" data-width-l="hide"><button class="topbar-control" onclick="toggleNav()" type="button" title="Menu (CTRL&#43;ALT&#43;n)"><i class="fa-fw fas fa-bars"></i></button>
+            </div>
+            <div class="topbar-button topbar-button-toc" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="Table of Contents (CTRL&#43;ALT&#43;t)"><i class="fa-fw fas fa-list-alt"></i></button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+<nav class="TableOfContents">
+  <ul>
+    <li><a href="#input-parameters">Input parameters</a></li>
+    <li><a href="#antecedentshttplocalhost1313documentationantecedents"><a href="http://localhost:1313/documentation/antecedents/">Antecedents</a></a></li>
+    <li><a href="#ruleshahahugoshortcode54s1hbhb"><a href="HAHAHUGOSHORTCODE54s1HBHB">Rules</a></a></li>
+    <li><a href="#normalisation">Normalisation</a></li>
+    <li><a href="#consequentshahahugoshortcode54s2hbhb"><a href="HAHAHUGOSHORTCODE54s2HBHB">Consequents</a></a></li>
+    <li><a href="#output">Output</a></li>
+  </ul>
+</nav>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="/index.html"><span itemprop="name">ANFIS</span></a><meta itemprop="position" content="1">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><span itemprop="name">Documentation</span><meta itemprop="position" content="2"></li>
+          </ol>
+          <div class="topbar-area topbar-area-end" data-area="end">
+            <div class="topbar-button topbar-button-prev" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/index.html" title="ANFIS (🡐)"><i class="fa-fw fas fa-chevron-left"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-next" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/documentation/antecedents/index.html" title="Antecedents (🡒)"><i class="fa-fw fas fa-chevron-right"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-more" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="More"><i class="fa-fw fas fa-ellipsis-v"></i></button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+                  <div class="topbar-area topbar-area-more" data-area="more">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <div id="R-main-overlay"></div>
+      <main id="R-body-inner" class="highlightable documentation" tabindex="-1">
+        <div class="flex-block-wrapper">
+<article class="default">
+  <header class="headline">
+  </header>
+
+<h1 id="documentation">Documentation</h1>
+
+<p>System modelling based on conventional mathematical tools (e.g., differential equations) is not well suited for dealing with ill-defined and uncertain systems. By contrast, a fuzzy inference system employing fuzzy if-then rules can model the qualitative aspects of human knowledge and reason- ing processes without employing precise quantitative analyses. This fuzzy modeling or fuzzy identification, first explored systematically by <a href="https://dns2.asia.edu.tw/~ysho/YSHO-English/2000%20Engineering/PDF/IEE%20Tra%20Sys%20Man%20Cyb15,%20116.pdf" rel="external" target="_blank">Takagi and Sugeno</a>, has found numerous practical applications in control prediction and inference. However, there are some basic aspects of this approach which are in need of better understanding. More specifically:</p>
+<ol>
+<li>No standard methods exist for transforming human knowledge or experience into the rule base and database of a fuzzy inference system.</li>
+<li>There is a need for effective methods for tuning the membership functions (MF’s) so as to minimize the output error measure or maximize performance index.</li>
+</ol>
+<p>In this perspective, the aim of this library is to suggest a novel architecture called Adaptive-Network-based Fuzzy Inference System, or simply ANFIS, which can serve as a basis for constructing a set of fuzzy if-then rules with appropriate membership functions to generate the stipulated input-output pairs.</p>
+<h2 id="input-parameters">Input parameters</h2>
+<p>The parameters  can be stored as as a json with all the parameters or as 3 different jsons, storing: antecedent parameters, rules parameters, consequent parameters.</p>
+<h2 id="antecedentshttplocalhost1313documentationantecedents"><a href="http://localhost:1313/documentation/antecedents/" rel="external" target="_blank">Antecedents</a></h2>
+<p>This will be the first layer of an ANFIS. Every $node_i$ in this layer is a square node with a node function</p>
+<p>$$O_{i}^{1}=\mu_{A_{i}}(x)$$</p>
+<p>where $x$ is the input to $node_i$ , and A, is the linguistic label (small , large, etc.) associated with this node function. In other words, $O_{i}^{1}$ is the membership function of $A_{i}$ and it specifies the degree to which the given $x$ satisfies the quantifier $A_{i}$. Parameters in this layer are referred to as premise parameters.</p>
+<h2 id="ruleshahahugoshortcode54s1hbhb"><a href="http://localhost:1313/documentation/rules/">Rules</a></h2>
+<p>This is the second layer of an ANFIS, where fuzzy if-then rules are applied. Every node in this layer is a circle node labeled $\prod$, which multiplies the incoming signals and sends the product out. Each node represents a single rule&rsquo;s firing strength.</p>
+<h2 id="normalisation">Normalisation</h2>
+<p>This will be the third layer of an ANFIS. Every node in this layer is a circle node labeled $N$. The ith node calculates the ratio of the ith rule’s firing strength to the sum of all rules’ firing strengths:</p>
+<p>$$O^{3} = \frac{w_{i}}{\sum {w_{i}}}$$</p>
+<h2 id="consequentshahahugoshortcode54s2hbhb"><a href="http://localhost:1313/documentation/consequents/">Consequents</a></h2>
+<p>This is the fourth layer of an ANFIS. Each node in this layer is a square node that computes the contribution of each rule to the overall output.</p>
+<h2 id="output">Output</h2>
+<p>This is the fifth and final layer of an ANFIS. Each node in this layer is a circle node labeled $\Sigma$ that computes the overall output as the summation of all incoming signals:</p>
+<p>$$O^{5}=\sum_{i} \overline{w_{i}} \cdot f_i$$</p>
+
+  <footer class="footline">
+  </footer>
+</article>
+        </div>
+      </main>
+    </div>
+    <aside id="R-sidebar" class="default-animation">
+      <div id="R-header-topbar" class="default-animation"></div>
+      <div id="R-header-wrapper" class="default-animation">
+        <div id="R-header" class="default-animation">
+          <a id="R-logo" class="R-default" href="/index.html">
+pyanfis
+          </a>
+        </div>
+        <script>
+          window.index_js_url="/searchindex.en.js?1736772647";
+        </script>
+        <search><form action="/search/index.html" method="get">
+          <div class="searchbox default-animation">
+            <button class="search-detail" type="submit" title="Search (CTRL+ALT+f)"><i class="fas fa-search"></i></button>
+            <label class="a11y-only" for="R-search-by">Search</label>
+            <input data-search-input id="R-search-by" name="search-by" class="search-by" type="search" placeholder="Search...">
+            <button class="search-clear" type="button" data-search-clear="" title="Clear search"><i class="fas fa-times" title="Clear search"></i></button>
+          </div>
+        </form></search>
+        <script>
+          var contentLangs=['en'];
+        </script>
+        <script src="/js/auto-complete.js?1736772647" defer></script>
+        <script src="/js/lunr/lunr.min.js?1736772647" defer></script>
+        <script src="/js/lunr/lunr.stemmer.support.min.js?1736772647" defer></script>
+        <script src="/js/lunr/lunr.multi.min.js?1736772647" defer></script>
+        <script src="/js/lunr/lunr.en.min.js?1736772647" defer></script>
+        <script src="/js/search.js?1736772647" defer></script>
+      </div>
+      <div id="R-homelinks" class="default-animation homelinks">
+        <ul>
+          <li><a class="padding" href="/index.html"><i class="fa-fw fas fa-home"></i> Home</a></li>
+        </ul>
+        <hr class="padding">
+      </div>
+      <div id="R-content-wrapper" class="highlightable">
+        <div id="R-shortcutmenu-home" class="R-sidebarmenu">
+          <ul class="enlarge morespace collapsible-menu">
+            <li class="active parent " data-nav-id="/documentation/index.html"><input type="checkbox" id="R-section-916c6c190c00564c28a689ed3cba8d7e" aria-controls="R-subsections-916c6c190c00564c28a689ed3cba8d7e" checked><label for="R-section-916c6c190c00564c28a689ed3cba8d7e"><i class="fa-fw fas fa-chevron-right"></i><span class="a11y-only">Submenu Documentation</span></label><a class="padding" href="/documentation/index.html">Documentation</a><ul id="R-subsections-916c6c190c00564c28a689ed3cba8d7e" class="collapsible-menu">
+            <li class="" data-nav-id="/documentation/antecedents/index.html"><a class="padding" href="/documentation/antecedents/index.html">Antecedents</a></li>
+            <li class="alwaysopen " data-nav-id="/documentation/consequents/index.html"><input type="checkbox" id="R-section-006c6c810e42b5598c0dfe96c2595744" aria-controls="R-subsections-006c6c810e42b5598c0dfe96c2595744" checked><label for="R-section-006c6c810e42b5598c0dfe96c2595744"><i class="fa-fw fas fa-chevron-right"></i><span class="a11y-only">Submenu Consequents</span></label><a class="padding" href="/documentation/consequents/index.html">Consequents</a><ul id="R-subsections-006c6c810e42b5598c0dfe96c2595744" class="collapsible-menu">
+            <li class="" data-nav-id="/documentation/consequents/mamdani/index.html"><a class="padding" href="/documentation/consequents/mamdani/index.html">Mamdani</a></li>
+            <li class="" data-nav-id="/documentation/consequents/ts/index.html"><a class="padding" href="/documentation/consequents/ts/index.html">Takagi-Sugeno</a></li></ul></li>
+            <li class="alwaysopen " data-nav-id="/documentation/examples/index.html"><input type="checkbox" id="R-section-c16c04532c669b01d8d704b22d9ad761" aria-controls="R-subsections-c16c04532c669b01d8d704b22d9ad761" checked><label for="R-section-c16c04532c669b01d8d704b22d9ad761"><i class="fa-fw fas fa-chevron-right"></i><span class="a11y-only">Submenu Examples</span></label><a class="padding" href="/documentation/examples/index.html">Examples</a><ul id="R-subsections-c16c04532c669b01d8d704b22d9ad761" class="collapsible-menu">
+            <li class="" data-nav-id="/documentation/examples/mamdani/index.html"><a class="padding" href="/documentation/examples/mamdani/index.html">Time series forecasting</a></li></ul></li>
+            <li class="" data-nav-id="/documentation/input_parameters/index.html"><a class="padding" href="/documentation/input_parameters/index.html">Input parameters</a></li>
+            <li class="" data-nav-id="/documentation/algorithms/index.html"><a class="padding" href="/documentation/algorithms/index.html">Algorithms</a></li>
+            <li class="" data-nav-id="/documentation/rules/index.html"><a class="padding" href="/documentation/rules/index.html">Rules</a></li>
+            <li class="alwaysopen " data-nav-id="/documentation/functions/index.html"><input type="checkbox" id="R-section-49d461ad8a85b9228601430df1818880" aria-controls="R-subsections-49d461ad8a85b9228601430df1818880" checked><label for="R-section-49d461ad8a85b9228601430df1818880"><i class="fa-fw fas fa-chevron-right"></i><span class="a11y-only">Submenu Functions</span></label><a class="padding" href="/documentation/functions/index.html">Functions</a><ul id="R-subsections-49d461ad8a85b9228601430df1818880" class="collapsible-menu">
+            <li class="" data-nav-id="/documentation/functions/bell/index.html"><a class="padding" href="/documentation/functions/bell/index.html">Bell</a></li>
+            <li class="" data-nav-id="/documentation/functions/gauss/index.html"><a class="padding" href="/documentation/functions/gauss/index.html">Gauss</a></li>
+            <li class="" data-nav-id="/documentation/functions/linear_s/index.html"><a class="padding" href="/documentation/functions/linear_s/index.html">Linear S</a></li>
+            <li class="" data-nav-id="/documentation/functions/linear_z/index.html"><a class="padding" href="/documentation/functions/linear_z/index.html">Linear Z</a></li>
+            <li class="" data-nav-id="/documentation/functions/sigmoid/index.html"><a class="padding" href="/documentation/functions/sigmoid/index.html">Sigmoid</a></li>
+            <li class="" data-nav-id="/documentation/functions/triangular/index.html"><a class="padding" href="/documentation/functions/triangular/index.html">Triangular</a></li></ul></li>
+            <li class="" data-nav-id="/documentation/universe/index.html"><a class="padding" href="/documentation/universe/index.html">Universe</a></li></ul></li>
+            <li class="" data-nav-id="/blog/index.html"><a class="padding" href="/blog/index.html">Blog</a></li>
+          </ul>
+        </div>
+    
+        <div class="padding footermargin footerLangSwitch footerVariantSwitch footerVisitedLinks footerFooter showVariantSwitch showFooter"></div>
+        <div id="R-menu-footer">
+          <hr class="padding default-animation footerLangSwitch footerVariantSwitch footerVisitedLinks footerFooter showVariantSwitch showFooter">
+          <div id="R-prefooter" class="footerLangSwitch footerVariantSwitch footerVisitedLinks showVariantSwitch">
+            <ul>
+              <li id="R-select-language-container" class="footerLangSwitch">
+                <div class="padding menu-control">
+                  <i class="fa-fw fas fa-language"></i>
+                  <span>&nbsp;</span>
+                  <div class="control-style">
+                    <label class="a11y-only" for="R-select-language">Language</label>
+                    <select id="R-select-language" onchange="location = this.querySelector( this.value ).dataset.url;">
+                      <option id="R-select-language-en" value="#R-select-language-en" data-url="/documentation/index.html" lang="en-us" selected></option>
+                    </select>
+                  </div>
+                  <div class="clear"></div>
+                </div>
+              </li>
+              <li id="R-select-variant-container" class="footerVariantSwitch showVariantSwitch">
+                <div class="padding menu-control">
+                  <i class="fa-fw fas fa-paint-brush"></i>
+                  <span>&nbsp;</span>
+                  <div class="control-style">
+                    <label class="a11y-only" for="R-select-variant">Theme</label>
+                    <select id="R-select-variant" onchange="window.relearn.changeVariant( this.value );">
+                      <option id="R-select-variant-zen-dark" value="zen-dark" selected>Zen Dark</option>
+                      <option id="R-select-variant-zen-light" value="zen-light">Zen Light</option>
+                    </select>
+                  </div>
+                  <div class="clear"></div>
+                </div>
+                <script>window.relearn.markVariant();</script>
+              </li>
+              <li class="footerVisitedLinks">
+                <div class="padding menu-control">
+                  <i class="fa-fw fas fa-history"></i>
+                  <span>&nbsp;</span>
+                  <div class="control-style">
+                    <button onclick="clearHistory();">Clear History</button>
+                  </div>
+                  <div class="clear"></div>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div id="R-footer" class="footerFooter showFooter">
+        <p>Built with <a href="https://github.com/McShelby/hugo-theme-relearn" title="love"><i class="fas fa-heart"></i></a> by <a href="https://gohugo.io/">Hugo</a></p>
+          </div>
+        </div>
+      </div>
+    </aside>
+    <script src="/js/clipboard.min.js?1736772647" defer></script>
+    <script src="/js/perfect-scrollbar.min.js?1736772647" defer></script>
+    <script>
+      function useMathJax( config ){
+        window.MathJax = Object.assign( window.MathJax || {}, {
+          tex: {
+            inlineMath:  [['\\(', '\\)'], ['$',  '$']],  
+            displayMath: [['\\[', '\\]'], ['$$', '$$']], 
+          },
+          options: {
+            enableMenu: false 
+          }
+        }, config );
+      }
+      useMathJax( JSON.parse("{}") );
+    </script>
+    <script id="MathJax-script" async src="/js/mathjax/tex-mml-chtml.js?1736772647"></script>
+    <script src="/js/theme.js?1736772647" defer></script>
+  </body>
+</html>

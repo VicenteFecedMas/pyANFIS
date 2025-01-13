@@ -1,0 +1,6 @@
+[submodule "documentation/quickstart/themes/doks"]
+	path = documentation/quickstart/themes/doks
+	url = https://github.com/thuliteio/doks
+[submodule "documentation/quickstart/themes/ananke"]
+	path = documentation/quickstart/themes/ananke
+	url = https://github.com/theNewDynamic/gohugo-theme-ananke.git
