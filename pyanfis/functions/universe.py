@@ -37,7 +37,15 @@ class Universe(torch.nn.Module):
         a tensor of size [n_batches, n_lines, n_functions]
     """
     __slots__ = ["min", "max", "_range", "name", "functions"]
-    def __init__(self, parameters: dict[str, Any]) -> None:
+    def __init__(
+            self,
+            name: Optional[str] = None,
+            range: tuple[
+                Optional[Union[int, float]],
+                Optional[Union[int, float]]
+            ] = None,
+            functions: dict[str, Any] = {}
+        ) -> None:
         super().__init__() # type: ignore
         self.min: Optional[Union[int, float]] = None
         self.max: Optional[Union[int, float]] = None
@@ -48,12 +56,12 @@ class Universe(torch.nn.Module):
         initial_range:tuple[
             Optional[Union[int, float]],
             Optional[Union[int, float]]
-        ] = parameters.get("range", (None, None))
+        ] = range
         self.range = initial_range
-        self.name: str = parameters.get("name", None)
+        self.name: str = name
         self.functions: dict[str, Any] = {
             fn_name: self._load_function(vals["type"], vals["parameters"])
-            for fn_name, vals in parameters.get("functions", {}).items()
+            for fn_name, vals in functions.items()
         }
     @property
     def range(self) -> tuple[
