@@ -53,7 +53,7 @@ jobs:
       - name: List repository structure
         run: ls -R
       - name: Build with Hugo
-        working-directory: pyanfis/docs
+        working-directory: docs
         env:
           HUGO_CACHEDIR: ${{ runner.temp }}/hugo_cache
           HUGO_ENVIRONMENT: production
