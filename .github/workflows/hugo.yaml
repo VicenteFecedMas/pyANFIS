@@ -50,6 +50,8 @@ jobs:
         uses: actions/configure-pages@v5
       - name: Install Node.js dependencies
         run: "[[ -f package-lock.json || -f npm-shrinkwrap.json ]] && npm ci || true"
+      - name: List repository structure
+        run: ls -R
       - name: Build with Hugo
         working-directory: pyanfis/docs
         env:
