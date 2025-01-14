@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Documentation :: My New Hugo Site</title>
+    <title>Documentation</title>
     <link>http://localhost:1313/documentation/index.html</link>
     <description>System modelling based on conventional mathematical tools (e.g., differential equations) is not well suited for dealing with ill-defined and uncertain systems. By contrast, a fuzzy inference system employing fuzzy if-then rules can model the qualitative aspects of human knowledge and reason- ing processes without employing precise quantitative analyses. This fuzzy modeling or fuzzy identification, first explored systematically by Takagi and Sugeno, has found numerous practical applications in control prediction and inference. However, there are some basic aspects of this approach which are in need of better understanding. More specifically:</description>
     <generator>Hugo</generator>

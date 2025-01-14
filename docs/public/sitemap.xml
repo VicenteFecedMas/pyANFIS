@@ -5,62 +5,70 @@
     <lastmod>2019-09-20T04:20:36+04:30</lastmod>
   </url>
   <url>
-    <loc>http://localhost:1313/antecedents/index.html</loc>
+    <loc>http://localhost:1313/documentation/antecedents/index.html</loc>
     <lastmod>2019-09-20T04:20:36+04:30</lastmod>
   </url>
   <url>
-    <loc>http://localhost:1313/consequents/index.html</loc>
+    <loc>http://localhost:1313/documentation/consequents/index.html</loc>
     <lastmod>2019-09-20T04:20:36+04:30</lastmod>
   </url>
   <url>
-    <loc>http://localhost:1313/examples/index.html</loc>
+    <loc>http://localhost:1313/documentation/index.html</loc>
     <lastmod>2019-09-20T04:20:36+04:30</lastmod>
   </url>
   <url>
-    <loc>http://localhost:1313/input_parameters/index.html</loc>
+    <loc>http://localhost:1313/documentation/examples/index.html</loc>
     <lastmod>2019-09-20T04:20:36+04:30</lastmod>
   </url>
   <url>
-    <loc>http://localhost:1313/consequents/mamdani/index.html</loc>
+    <loc>http://localhost:1313/documentation/input_parameters/index.html</loc>
     <lastmod>2019-09-20T04:20:36+04:30</lastmod>
   </url>
   <url>
-    <loc>http://localhost:1313/consequents/ts/index.html</loc>
+    <loc>http://localhost:1313/documentation/consequents/mamdani/index.html</loc>
     <lastmod>2019-09-20T04:20:36+04:30</lastmod>
   </url>
   <url>
-    <loc>http://localhost:1313/examples/mamdani/index.html</loc>
+    <loc>http://localhost:1313/documentation/consequents/ts/index.html</loc>
     <lastmod>2019-09-20T04:20:36+04:30</lastmod>
   </url>
   <url>
-    <loc>http://localhost:1313/algorithms/index.html</loc>
+    <loc>http://localhost:1313/documentation/examples/mamdani/index.html</loc>
+    <lastmod>2019-09-20T04:20:36+04:30</lastmod>
   </url>
   <url>
-    <loc>http://localhost:1313/rules/index.html</loc>
+    <loc>http://localhost:1313/documentation/algorithms/index.html</loc>
   </url>
   <url>
-    <loc>http://localhost:1313/functions/bell/index.html</loc>
+    <loc>http://localhost:1313/documentation/rules/index.html</loc>
   </url>
   <url>
-    <loc>http://localhost:1313/functions/index.html</loc>
+    <loc>http://localhost:1313/blog/index.html</loc>
+    <lastmod>2019-09-20T04:20:36+04:30</lastmod>
   </url>
   <url>
-    <loc>http://localhost:1313/functions/gauss/index.html</loc>
+    <loc>http://localhost:1313/documentation/functions/bell/index.html</loc>
   </url>
   <url>
-    <loc>http://localhost:1313/functions/linear_s/index.html</loc>
+    <loc>http://localhost:1313/documentation/functions/index.html</loc>
   </url>
   <url>
-    <loc>http://localhost:1313/functions/linear_z/index.html</loc>
+    <loc>http://localhost:1313/documentation/functions/gauss/index.html</loc>
   </url>
   <url>
-    <loc>http://localhost:1313/functions/sigmoid/index.html</loc>
+    <loc>http://localhost:1313/documentation/functions/linear_s/index.html</loc>
   </url>
   <url>
-    <loc>http://localhost:1313/functions/triangular/index.html</loc>
+    <loc>http://localhost:1313/documentation/functions/linear_z/index.html</loc>
   </url>
   <url>
-    <loc>http://localhost:1313/universe/index.html</loc>
+    <loc>http://localhost:1313/documentation/functions/sigmoid/index.html</loc>
+  </url>
+  <url>
+    <loc>http://localhost:1313/documentation/functions/triangular/index.html</loc>
+  </url>
+  <url>
+    <loc>http://localhost:1313/documentation/universe/index.html</loc>
   </url>
   <url>
     <loc>http://localhost:1313/categories/index.html</loc>

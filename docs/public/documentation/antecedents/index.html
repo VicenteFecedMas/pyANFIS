@@ -10,32 +10,31 @@ name(dict) - dictionary with “Input 1”, “Input 2”, … as keys and unive
 Example import torch from pyanfis.antecedents import Antecedents params = { &#34;Input 1&#34;:{ &#34;name&#34;: &#34;Dummy_Universe_1&#34;, &#34;range&#34;: (0, 3), &#34;functions&#34;: { &#34;Small&#34;: { &#34;type&#34;: &#34;LinearZ&#34;, &#34;parameters&#34;: { &#34;shoulder&#34;: 0, &#34;foot&#34;: 2 } }, &#34;Medium&#34;: { &#34;type&#34;: &#34;Gauss&#34;, &#34;parameters&#34;: { &#34;mean&#34;: 1.5, &#34;std&#34;: 1 } }, &#34;Big&#34;: { &#34;type&#34;: &#34;LinearS&#34;, &#34;parameters&#34;: { &#34;foot&#34;: 1, &#34;shoulder&#34;: 3 } } } }, &#34;Input 2&#34;:{ &#34;name&#34;: &#34;Dummy_Universe_2&#34;, &#34;range&#34;: (0, 6), &#34;functions&#34;: { &#34;Small&#34;: { &#34;type&#34;: &#34;LinearZ&#34;, &#34;parameters&#34;: { &#34;shoulder&#34;: 0, &#34;foot&#34;: 4 } }, &#34;Medium&#34;: { &#34;type&#34;: &#34;Gauss&#34;, &#34;parameters&#34;: { &#34;mean&#34;: 3, &#34;std&#34;: 2 } }, &#34;Big&#34;: { &#34;type&#34;: &#34;LinearS&#34;, &#34;parameters&#34;: { &#34;foot&#34;: 2, &#34;shoulder&#34;: 5 } } } } } antecedents = Antecedents(params) x_1 = torch.linspace(0, 3, 9).unsqueeze(0).unsqueeze(-1) x_2 = torch.linspace(0, 6, 9).unsqueeze(0).unsqueeze(-1) x = torch.cat((x_1, x_2), dim=2) f_x = antecedents(x) tensor([[[0.0000, 0.0000], [0.3750, 0.7500], [0.7500, 1.5000], [1.1250, 2.2500], [1.5000, 3.0000], [1.8750, 3.7500], [2.2500, 4.5000], [2.6250, 5.2500], [3.0000, 6.0000]]]) tensor([[[1.0000, 0.3247, 0.0000, 1.0000, 0.3247, 0.0000], [0.8125, 0.5311, 0.0000, 0.8125, 0.5311, 0.0000], [0.6250, 0.7548, 0.0000, 0.6250, 0.7548, 0.0000], [0.4375, 0.9321, 0.0625, 0.4375, 0.9321, 0.0833], [0.2500, 1.0000, 0.2500, 0.2500, 1.0000, 0.3333], [0.0625, 0.9321, 0.4375, 0.0625, 0.9321, 0.5833], [0.0000, 0.7548, 0.6250, 0.0000, 0.7548, 0.8333], [0.0000, 0.5311, 0.8125, 0.0000, 0.5311, 1.0000], [0.0000, 0.3247, 1.0000, 0.0000, 0.3247, 1.0000]]], grad_fn=&lt;IndexPutBackward0&gt;) Visualization import matplotlib.pyplot as plt fig, axs = plt.subplots(nrows=1, ncols=len(antecedents.universes), figsize=(15, 5)) axs = axs.flatten() for ax, (universe, i) in zip(axs, zip(antecedents.universes.values(), x.T)): ax.set_title(universe.name) ax.set_xlabel(&#34;x&#34;) ax.set_ylabel(&#34;f (x)&#34;) ax.margins(y=0.05) i = i.unsqueeze(0) ax.plot(i[0, :, :].detach(), universe(i)[0, :, :].detach()) plt.tight_layout() plt.show()">
     <meta name="author" content="">
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="Antecedents :: My New Hugo Site">
+    <meta name="twitter:title" content="Antecedents">
     <meta name="twitter:description" content="CLASS pyanfis.antecedents.Antecedents(universes) Parameters The antecedents will receive a dictionary that inside will have a set of universes,
 name(dict) - dictionary with “Input 1”, “Input 2”, … as keys and universes as values. This class is used to define the range in which a variable is going to be defined in a fuzzy way, it is composed of several functions used to describe it.
 Example import torch from pyanfis.antecedents import Antecedents params = { &#34;Input 1&#34;:{ &#34;name&#34;: &#34;Dummy_Universe_1&#34;, &#34;range&#34;: (0, 3), &#34;functions&#34;: { &#34;Small&#34;: { &#34;type&#34;: &#34;LinearZ&#34;, &#34;parameters&#34;: { &#34;shoulder&#34;: 0, &#34;foot&#34;: 2 } }, &#34;Medium&#34;: { &#34;type&#34;: &#34;Gauss&#34;, &#34;parameters&#34;: { &#34;mean&#34;: 1.5, &#34;std&#34;: 1 } }, &#34;Big&#34;: { &#34;type&#34;: &#34;LinearS&#34;, &#34;parameters&#34;: { &#34;foot&#34;: 1, &#34;shoulder&#34;: 3 } } } }, &#34;Input 2&#34;:{ &#34;name&#34;: &#34;Dummy_Universe_2&#34;, &#34;range&#34;: (0, 6), &#34;functions&#34;: { &#34;Small&#34;: { &#34;type&#34;: &#34;LinearZ&#34;, &#34;parameters&#34;: { &#34;shoulder&#34;: 0, &#34;foot&#34;: 4 } }, &#34;Medium&#34;: { &#34;type&#34;: &#34;Gauss&#34;, &#34;parameters&#34;: { &#34;mean&#34;: 3, &#34;std&#34;: 2 } }, &#34;Big&#34;: { &#34;type&#34;: &#34;LinearS&#34;, &#34;parameters&#34;: { &#34;foot&#34;: 2, &#34;shoulder&#34;: 5 } } } } } antecedents = Antecedents(params) x_1 = torch.linspace(0, 3, 9).unsqueeze(0).unsqueeze(-1) x_2 = torch.linspace(0, 6, 9).unsqueeze(0).unsqueeze(-1) x = torch.cat((x_1, x_2), dim=2) f_x = antecedents(x) tensor([[[0.0000, 0.0000], [0.3750, 0.7500], [0.7500, 1.5000], [1.1250, 2.2500], [1.5000, 3.0000], [1.8750, 3.7500], [2.2500, 4.5000], [2.6250, 5.2500], [3.0000, 6.0000]]]) tensor([[[1.0000, 0.3247, 0.0000, 1.0000, 0.3247, 0.0000], [0.8125, 0.5311, 0.0000, 0.8125, 0.5311, 0.0000], [0.6250, 0.7548, 0.0000, 0.6250, 0.7548, 0.0000], [0.4375, 0.9321, 0.0625, 0.4375, 0.9321, 0.0833], [0.2500, 1.0000, 0.2500, 0.2500, 1.0000, 0.3333], [0.0625, 0.9321, 0.4375, 0.0625, 0.9321, 0.5833], [0.0000, 0.7548, 0.6250, 0.0000, 0.7548, 0.8333], [0.0000, 0.5311, 0.8125, 0.0000, 0.5311, 1.0000], [0.0000, 0.3247, 1.0000, 0.0000, 0.3247, 1.0000]]], grad_fn=&lt;IndexPutBackward0&gt;) Visualization import matplotlib.pyplot as plt fig, axs = plt.subplots(nrows=1, ncols=len(antecedents.universes), figsize=(15, 5)) axs = axs.flatten() for ax, (universe, i) in zip(axs, zip(antecedents.universes.values(), x.T)): ax.set_title(universe.name) ax.set_xlabel(&#34;x&#34;) ax.set_ylabel(&#34;f (x)&#34;) ax.margins(y=0.05) i = i.unsqueeze(0) ax.plot(i[0, :, :].detach(), universe(i)[0, :, :].detach()) plt.tight_layout() plt.show()">
     <meta property="og:url" content="http://localhost:1313/documentation/antecedents/index.html">
-    <meta property="og:site_name" content="My New Hugo Site">
-    <meta property="og:title" content="Antecedents :: My New Hugo Site">
+    <meta property="og:title" content="Antecedents">
     <meta property="og:description" content="CLASS pyanfis.antecedents.Antecedents(universes) Parameters The antecedents will receive a dictionary that inside will have a set of universes,
 name(dict) - dictionary with “Input 1”, “Input 2”, … as keys and universes as values. This class is used to define the range in which a variable is going to be defined in a fuzzy way, it is composed of several functions used to describe it.
 Example import torch from pyanfis.antecedents import Antecedents params = { &#34;Input 1&#34;:{ &#34;name&#34;: &#34;Dummy_Universe_1&#34;, &#34;range&#34;: (0, 3), &#34;functions&#34;: { &#34;Small&#34;: { &#34;type&#34;: &#34;LinearZ&#34;, &#34;parameters&#34;: { &#34;shoulder&#34;: 0, &#34;foot&#34;: 2 } }, &#34;Medium&#34;: { &#34;type&#34;: &#34;Gauss&#34;, &#34;parameters&#34;: { &#34;mean&#34;: 1.5, &#34;std&#34;: 1 } }, &#34;Big&#34;: { &#34;type&#34;: &#34;LinearS&#34;, &#34;parameters&#34;: { &#34;foot&#34;: 1, &#34;shoulder&#34;: 3 } } } }, &#34;Input 2&#34;:{ &#34;name&#34;: &#34;Dummy_Universe_2&#34;, &#34;range&#34;: (0, 6), &#34;functions&#34;: { &#34;Small&#34;: { &#34;type&#34;: &#34;LinearZ&#34;, &#34;parameters&#34;: { &#34;shoulder&#34;: 0, &#34;foot&#34;: 4 } }, &#34;Medium&#34;: { &#34;type&#34;: &#34;Gauss&#34;, &#34;parameters&#34;: { &#34;mean&#34;: 3, &#34;std&#34;: 2 } }, &#34;Big&#34;: { &#34;type&#34;: &#34;LinearS&#34;, &#34;parameters&#34;: { &#34;foot&#34;: 2, &#34;shoulder&#34;: 5 } } } } } antecedents = Antecedents(params) x_1 = torch.linspace(0, 3, 9).unsqueeze(0).unsqueeze(-1) x_2 = torch.linspace(0, 6, 9).unsqueeze(0).unsqueeze(-1) x = torch.cat((x_1, x_2), dim=2) f_x = antecedents(x) tensor([[[0.0000, 0.0000], [0.3750, 0.7500], [0.7500, 1.5000], [1.1250, 2.2500], [1.5000, 3.0000], [1.8750, 3.7500], [2.2500, 4.5000], [2.6250, 5.2500], [3.0000, 6.0000]]]) tensor([[[1.0000, 0.3247, 0.0000, 1.0000, 0.3247, 0.0000], [0.8125, 0.5311, 0.0000, 0.8125, 0.5311, 0.0000], [0.6250, 0.7548, 0.0000, 0.6250, 0.7548, 0.0000], [0.4375, 0.9321, 0.0625, 0.4375, 0.9321, 0.0833], [0.2500, 1.0000, 0.2500, 0.2500, 1.0000, 0.3333], [0.0625, 0.9321, 0.4375, 0.0625, 0.9321, 0.5833], [0.0000, 0.7548, 0.6250, 0.0000, 0.7548, 0.8333], [0.0000, 0.5311, 0.8125, 0.0000, 0.5311, 1.0000], [0.0000, 0.3247, 1.0000, 0.0000, 0.3247, 1.0000]]], grad_fn=&lt;IndexPutBackward0&gt;) Visualization import matplotlib.pyplot as plt fig, axs = plt.subplots(nrows=1, ncols=len(antecedents.universes), figsize=(15, 5)) axs = axs.flatten() for ax, (universe, i) in zip(axs, zip(antecedents.universes.values(), x.T)): ax.set_title(universe.name) ax.set_xlabel(&#34;x&#34;) ax.set_ylabel(&#34;f (x)&#34;) ax.margins(y=0.05) i = i.unsqueeze(0) ax.plot(i[0, :, :].detach(), universe(i)[0, :, :].detach()) plt.tight_layout() plt.show()">
     <meta property="og:locale" content="en_us">
     <meta property="og:type" content="website">
-    <meta itemprop="name" content="Antecedents :: My New Hugo Site">
+    <meta itemprop="name" content="Antecedents">
     <meta itemprop="description" content="CLASS pyanfis.antecedents.Antecedents(universes) Parameters The antecedents will receive a dictionary that inside will have a set of universes,
 name(dict) - dictionary with “Input 1”, “Input 2”, … as keys and universes as values. This class is used to define the range in which a variable is going to be defined in a fuzzy way, it is composed of several functions used to describe it.
 Example import torch from pyanfis.antecedents import Antecedents params = { &#34;Input 1&#34;:{ &#34;name&#34;: &#34;Dummy_Universe_1&#34;, &#34;range&#34;: (0, 3), &#34;functions&#34;: { &#34;Small&#34;: { &#34;type&#34;: &#34;LinearZ&#34;, &#34;parameters&#34;: { &#34;shoulder&#34;: 0, &#34;foot&#34;: 2 } }, &#34;Medium&#34;: { &#34;type&#34;: &#34;Gauss&#34;, &#34;parameters&#34;: { &#34;mean&#34;: 1.5, &#34;std&#34;: 1 } }, &#34;Big&#34;: { &#34;type&#34;: &#34;LinearS&#34;, &#34;parameters&#34;: { &#34;foot&#34;: 1, &#34;shoulder&#34;: 3 } } } }, &#34;Input 2&#34;:{ &#34;name&#34;: &#34;Dummy_Universe_2&#34;, &#34;range&#34;: (0, 6), &#34;functions&#34;: { &#34;Small&#34;: { &#34;type&#34;: &#34;LinearZ&#34;, &#34;parameters&#34;: { &#34;shoulder&#34;: 0, &#34;foot&#34;: 4 } }, &#34;Medium&#34;: { &#34;type&#34;: &#34;Gauss&#34;, &#34;parameters&#34;: { &#34;mean&#34;: 3, &#34;std&#34;: 2 } }, &#34;Big&#34;: { &#34;type&#34;: &#34;LinearS&#34;, &#34;parameters&#34;: { &#34;foot&#34;: 2, &#34;shoulder&#34;: 5 } } } } } antecedents = Antecedents(params) x_1 = torch.linspace(0, 3, 9).unsqueeze(0).unsqueeze(-1) x_2 = torch.linspace(0, 6, 9).unsqueeze(0).unsqueeze(-1) x = torch.cat((x_1, x_2), dim=2) f_x = antecedents(x) tensor([[[0.0000, 0.0000], [0.3750, 0.7500], [0.7500, 1.5000], [1.1250, 2.2500], [1.5000, 3.0000], [1.8750, 3.7500], [2.2500, 4.5000], [2.6250, 5.2500], [3.0000, 6.0000]]]) tensor([[[1.0000, 0.3247, 0.0000, 1.0000, 0.3247, 0.0000], [0.8125, 0.5311, 0.0000, 0.8125, 0.5311, 0.0000], [0.6250, 0.7548, 0.0000, 0.6250, 0.7548, 0.0000], [0.4375, 0.9321, 0.0625, 0.4375, 0.9321, 0.0833], [0.2500, 1.0000, 0.2500, 0.2500, 1.0000, 0.3333], [0.0625, 0.9321, 0.4375, 0.0625, 0.9321, 0.5833], [0.0000, 0.7548, 0.6250, 0.0000, 0.7548, 0.8333], [0.0000, 0.5311, 0.8125, 0.0000, 0.5311, 1.0000], [0.0000, 0.3247, 1.0000, 0.0000, 0.3247, 1.0000]]], grad_fn=&lt;IndexPutBackward0&gt;) Visualization import matplotlib.pyplot as plt fig, axs = plt.subplots(nrows=1, ncols=len(antecedents.universes), figsize=(15, 5)) axs = axs.flatten() for ax, (universe, i) in zip(axs, zip(antecedents.universes.values(), x.T)): ax.set_title(universe.name) ax.set_xlabel(&#34;x&#34;) ax.set_ylabel(&#34;f (x)&#34;) ax.margins(y=0.05) i = i.unsqueeze(0) ax.plot(i[0, :, :].detach(), universe(i)[0, :, :].detach()) plt.tight_layout() plt.show()">
     <meta itemprop="datePublished" content="2019-09-20T04:20:36+04:30">
     <meta itemprop="dateModified" content="2019-09-20T04:20:36+04:30">
     <meta itemprop="wordCount" content="301">
-    <title>Antecedents :: My New Hugo Site</title>
-    <link href="/documentation/antecedents/index.xml" rel="alternate" type="application/rss+xml" title="Antecedents :: My New Hugo Site">
-    <link href="/css/fontawesome-all.min.css?1736772420" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1736772420" rel="stylesheet"></noscript>
-    <link href="/css/auto-complete.css?1736772420" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1736772420" rel="stylesheet"></noscript>
-    <link href="/css/perfect-scrollbar.min.css?1736772420" rel="stylesheet">
-    <link href="/css/theme.css?1736772420" rel="stylesheet">
-    <link href="/css/format-html.css?1736772420" rel="stylesheet" id="R-format-style">
+    <title>Antecedents</title>
+    <link href="/documentation/antecedents/index.xml" rel="alternate" type="application/rss+xml" title="Antecedents">
+    <link href="/css/fontawesome-all.min.css?1736851879" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1736851879" rel="stylesheet"></noscript>
+    <link href="/css/auto-complete.css?1736851879" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1736851879" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar.min.css?1736851879" rel="stylesheet">
+    <link href="/css/theme.css?1736851879" rel="stylesheet">
+    <link href="/css/format-html.css?1736851879" rel="stylesheet" id="R-format-style">
     <script>
       window.relearn = window.relearn || {};
       window.relearn.relBasePath='..\/..';
@@ -109,11 +108,11 @@ Example import torch from pyanfis.antecedents import Antecedents params = { &#34
           </div>
           <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li
             itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="/index.html"><span itemprop="name">ANFIS</span></a><meta itemprop="position" content="1">&nbsp;>&nbsp;</li><li
-            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="/documentation/index.html"><span itemprop="name">Documentations</span></a><meta itemprop="position" content="2">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="/documentation/index.html"><span itemprop="name">Documentation</span></a><meta itemprop="position" content="2">&nbsp;>&nbsp;</li><li
             itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><span itemprop="name">Antecedents</span><meta itemprop="position" content="3"></li>
           </ol>
           <div class="topbar-area topbar-area-end" data-area="end">
-            <div class="topbar-button topbar-button-prev" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/documentation/_index-copy/index.html" title="ANFIS (🡐)"><i class="fa-fw fas fa-chevron-left"></i></a>
+            <div class="topbar-button topbar-button-prev" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/documentation/index.html" title="Documentation (🡐)"><i class="fa-fw fas fa-chevron-left"></i></a>
             </div>
             <div class="topbar-button topbar-button-next" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/documentation/consequents/index.html" title="Consequents (🡒)"><i class="fa-fw fas fa-chevron-right"></i></a>
             </div>
@@ -244,8 +243,8 @@ Example import torch from pyanfis.antecedents import Antecedents params = { &#34
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>tight_layout()
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>show()</span></span></code></pre></div>
-<p><a href="#R-image-6005475c3468d748954ffa3201dd5a0e" class="lightbox-link"><img alt="aefe47d0-de07-442c-b620-c0086368cead" class="noborder lazy lightbox noshadow figure-image" loading="lazy" src="https://github.com/user-attachments/assets/d90d32c6-5e52-41a0-bb32-c59d54f0771a" style=" height: auto; width: auto;"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-6005475c3468d748954ffa3201dd5a0e"><img alt="aefe47d0-de07-442c-b620-c0086368cead" class="noborder lazy lightbox noshadow lightbox-image" loading="lazy" src="https://github.com/user-attachments/assets/d90d32c6-5e52-41a0-bb32-c59d54f0771a"></a></p>
+<p><a href="#R-image-8be40b3c3570cda5d1959d4571912b7f" class="lightbox-link"><img alt="aefe47d0-de07-442c-b620-c0086368cead" class="noborder lazy lightbox noshadow figure-image" loading="lazy" src="https://github.com/user-attachments/assets/d90d32c6-5e52-41a0-bb32-c59d54f0771a" style=" height: auto; width: auto;"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-8be40b3c3570cda5d1959d4571912b7f"><img alt="aefe47d0-de07-442c-b620-c0086368cead" class="noborder lazy lightbox noshadow lightbox-image" loading="lazy" src="https://github.com/user-attachments/assets/d90d32c6-5e52-41a0-bb32-c59d54f0771a"></a></p>
 
   <footer class="footline">
   </footer>
@@ -262,7 +261,7 @@ pyanfis
           </a>
         </div>
         <script>
-          window.index_js_url="/searchindex.en.js?1736772420";
+          window.index_js_url="/searchindex.en.js?1736851879";
         </script>
         <search><form action="/search/index.html" method="get">
           <div class="searchbox default-animation">
@@ -275,12 +274,12 @@ pyanfis
         <script>
           var contentLangs=['en'];
         </script>
-        <script src="/js/auto-complete.js?1736772420" defer></script>
-        <script src="/js/lunr/lunr.min.js?1736772420" defer></script>
-        <script src="/js/lunr/lunr.stemmer.support.min.js?1736772420" defer></script>
-        <script src="/js/lunr/lunr.multi.min.js?1736772420" defer></script>
-        <script src="/js/lunr/lunr.en.min.js?1736772420" defer></script>
-        <script src="/js/search.js?1736772420" defer></script>
+        <script src="/js/auto-complete.js?1736851879" defer></script>
+        <script src="/js/lunr/lunr.min.js?1736851879" defer></script>
+        <script src="/js/lunr/lunr.stemmer.support.min.js?1736851879" defer></script>
+        <script src="/js/lunr/lunr.multi.min.js?1736851879" defer></script>
+        <script src="/js/lunr/lunr.en.min.js?1736851879" defer></script>
+        <script src="/js/search.js?1736851879" defer></script>
       </div>
       <div id="R-homelinks" class="default-animation homelinks">
         <ul>
@@ -291,8 +290,7 @@ pyanfis
       <div id="R-content-wrapper" class="highlightable">
         <div id="R-shortcutmenu-home" class="R-sidebarmenu">
           <ul class="enlarge morespace collapsible-menu">
-            <li class="parent " data-nav-id="/documentation/index.html"><input type="checkbox" id="R-section-916c6c190c00564c28a689ed3cba8d7e" aria-controls="R-subsections-916c6c190c00564c28a689ed3cba8d7e" checked><label for="R-section-916c6c190c00564c28a689ed3cba8d7e"><i class="fa-fw fas fa-chevron-right"></i><span class="a11y-only">Submenu Documentations</span></label><a class="padding" href="/documentation/index.html">Documentations</a><ul id="R-subsections-916c6c190c00564c28a689ed3cba8d7e" class="collapsible-menu">
-            <li class="" data-nav-id="/documentation/_index-copy/index.html"><a class="padding" href="/documentation/_index-copy/index.html">ANFIS</a></li>
+            <li class="parent " data-nav-id="/documentation/index.html"><input type="checkbox" id="R-section-916c6c190c00564c28a689ed3cba8d7e" aria-controls="R-subsections-916c6c190c00564c28a689ed3cba8d7e" checked><label for="R-section-916c6c190c00564c28a689ed3cba8d7e"><i class="fa-fw fas fa-chevron-right"></i><span class="a11y-only">Submenu Documentation</span></label><a class="padding" href="/documentation/index.html">Documentation</a><ul id="R-subsections-916c6c190c00564c28a689ed3cba8d7e" class="collapsible-menu">
             <li class="active " data-nav-id="/documentation/antecedents/index.html"><a class="padding" href="/documentation/antecedents/index.html">Antecedents</a></li>
             <li class="alwaysopen " data-nav-id="/documentation/consequents/index.html"><input type="checkbox" id="R-section-006c6c810e42b5598c0dfe96c2595744" aria-controls="R-subsections-006c6c810e42b5598c0dfe96c2595744" checked><label for="R-section-006c6c810e42b5598c0dfe96c2595744"><i class="fa-fw fas fa-chevron-right"></i><span class="a11y-only">Submenu Consequents</span></label><a class="padding" href="/documentation/consequents/index.html">Consequents</a><ul id="R-subsections-006c6c810e42b5598c0dfe96c2595744" class="collapsible-menu">
             <li class="" data-nav-id="/documentation/consequents/mamdani/index.html"><a class="padding" href="/documentation/consequents/mamdani/index.html">Mamdani</a></li>
@@ -310,6 +308,7 @@ pyanfis
             <li class="" data-nav-id="/documentation/functions/sigmoid/index.html"><a class="padding" href="/documentation/functions/sigmoid/index.html">Sigmoid</a></li>
             <li class="" data-nav-id="/documentation/functions/triangular/index.html"><a class="padding" href="/documentation/functions/triangular/index.html">Triangular</a></li></ul></li>
             <li class="" data-nav-id="/documentation/universe/index.html"><a class="padding" href="/documentation/universe/index.html">Universe</a></li></ul></li>
+            <li class="" data-nav-id="/blog/index.html"><a class="padding" href="/blog/index.html">Blog</a></li>
           </ul>
         </div>
     
@@ -364,8 +363,8 @@ pyanfis
         </div>
       </div>
     </aside>
-    <script src="/js/clipboard.min.js?1736772420" defer></script>
-    <script src="/js/perfect-scrollbar.min.js?1736772420" defer></script>
+    <script src="/js/clipboard.min.js?1736851879" defer></script>
+    <script src="/js/perfect-scrollbar.min.js?1736851879" defer></script>
     <script>
       function useMathJax( config ){
         window.MathJax = Object.assign( window.MathJax || {}, {
@@ -380,7 +379,7 @@ pyanfis
       }
       useMathJax( JSON.parse("{}") );
     </script>
-    <script id="MathJax-script" async src="/js/mathjax/tex-mml-chtml.js?1736772420"></script>
-    <script src="/js/theme.js?1736772420" defer></script>
+    <script id="MathJax-script" async src="/js/mathjax/tex-mml-chtml.js?1736851879"></script>
+    <script src="/js/theme.js?1736851879" defer></script>
   </body>
 </html>
