@@ -25,11 +25,12 @@ class LSTSQ(torch.nn.Module):
         self.alpha: float = alpha
         self.driver: str = driver
     def forward(self, x: torch.Tensor, y: Optional[torch.Tensor] = None) -> None:
-        """If the mehod is training, it will compute the 'theta'.
-        The 'theta' is not returnet, instead, it will be acesed later
-        to be """
+        """This method will not return anything, instead it will compute
+        a new value of 'theta' on each pass that is called"""
         for _ in range(x.size(0)):
             new_theta: torch.Tensor = torch.linalg.lstsq(x, y, driver=self.driver).solution # type: ignore
             if new_theta.dim() > 2: # type: ignore
                 new_theta = new_theta.mean(dim=0) # type: ignore
             self.theta = (1 - self.alpha) * self.theta + self.alpha * new_theta # type: ignore
+
+        return None
